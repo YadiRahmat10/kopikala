@@ -14,6 +14,21 @@
   --ion-color-primary-tint: #5e3f3a;
   --ion-safe-area-top: env(safe-area-inset-top);
   --ion-safe-area-bottom: env(safe-area-inset-bottom);
+
+  /* Latar glassy: gradien latte + bercak warna hangat. Geometri dipatok ke viewport
+     (vw/vh dari pojok kiri atas) agar tampil identik di ion-app, ion-tabs & tiap halaman. */
+  --kk-base: #efe2d4;
+  --kk-backdrop:
+    radial-gradient(75vw 42vh at 0vw 0vh, rgba(226, 160, 116, 0.55), transparent 70%),
+    radial-gradient(70vw 40vh at 100vw 18vh, rgba(244, 184, 168, 0.6), transparent 70%),
+    radial-gradient(80vw 38vh at 5vw 62vh, rgba(196, 146, 112, 0.35), transparent 70%),
+    radial-gradient(75vw 40vh at 100vw 92vh, rgba(255, 210, 160, 0.6), transparent 70%),
+    var(--kk-base);
+  --kk-glass: rgba(255, 255, 255, 0.55);
+  --kk-glass-strong: rgba(255, 251, 247, 0.74);
+  --kk-glass-border: rgba(255, 255, 255, 0.65);
+  --kk-glass-blur: blur(22px) saturate(160%);
+  --kk-glass-shadow: 0 8px 28px -10px rgba(75, 46, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 @layer base {
@@ -21,7 +36,7 @@
   body {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     color: #1c1c19;
-    background: #fdf9f4;
+    background: var(--kk-backdrop);
     -webkit-font-smoothing: antialiased;
     overscroll-behavior: none;
   }
@@ -34,8 +49,21 @@
 }
 
 @layer components {
+  .glass {
+    background: var(--kk-glass);
+    border: 1px solid var(--kk-glass-border);
+    box-shadow: var(--kk-glass-shadow);
+    -webkit-backdrop-filter: var(--kk-glass-blur);
+    backdrop-filter: var(--kk-glass-blur);
+  }
+  .glass-bar {
+    background: rgba(255, 250, 245, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: var(--kk-glass-blur);
+    backdrop-filter: var(--kk-glass-blur);
+  }
   .card {
-    @apply flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-4 shadow-sm;
+    @apply glass flex flex-col gap-4 rounded-2xl p-4;
   }
   .eyebrow {
     @apply text-label-sm uppercase tracking-wider text-secondary;
@@ -47,22 +75,22 @@
     @apply flex min-h-[48px] items-center justify-center gap-2 rounded-full px-4 py-3 text-label-lg transition-all active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
   }
   .btn-primary {
-    @apply btn bg-primary-container text-on-primary hover:bg-primary;
+    @apply btn bg-gradient-to-b from-[#6a4842] to-primary-container text-on-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_8px_18px_-8px_rgba(51,25,22,0.6)] hover:to-primary;
   }
   .btn-soft {
-    @apply btn bg-surface-container text-primary hover:bg-surface-container-high;
+    @apply btn border border-white/60 bg-white/45 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md hover:bg-white/60;
   }
   .icon-btn {
     @apply flex shrink-0 items-center justify-center rounded-full transition-all active:scale-95;
   }
   .filter-chip {
-    @apply inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[rgba(75,46,42,0.12)] bg-surface-container-lowest px-4 text-label-lg font-semibold text-primary-container transition-colors;
+    @apply inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/70 bg-white/50 px-4 text-label-lg font-semibold text-primary-container transition-colors;
   }
   .filter-chip-active {
-    @apply border-primary-container bg-primary-container font-bold text-on-primary;
+    @apply border-primary-container bg-primary-container font-bold text-on-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.2)];
   }
   .input {
-    @apply w-full rounded-xl bg-surface-container px-4 py-3.5 text-body-lg text-on-surface outline-none ring-primary-container/40 placeholder:text-on-surface-variant/60 focus:ring-2;
+    @apply w-full rounded-xl border border-white/60 bg-white/50 px-4 py-3.5 text-body-lg text-on-surface outline-none ring-primary-container/40 placeholder:text-on-surface-variant/60 focus:ring-2;
   }
   .scroll-x {
     @apply -mx-4 flex gap-2 overflow-x-auto px-4;
@@ -74,18 +102,27 @@
 }
 
 /* ---------- Ionic overrides ---------- */
+/* Halaman tetap buram (bukan transparan) agar transisi antarhalaman tidak saling tumpuk */
+ion-app,
+ion-tabs,
+.ion-page {
+  background: var(--kk-backdrop);
+}
+
 ion-content {
-  --background: #fdf9f4;
+  --background: transparent;
 }
 
 ion-tab-bar {
-  --background: rgba(253, 249, 244, 0.94);
+  --background: rgba(255, 250, 245, 0.5);
   --border: 0;
   --color: #504442;
   --color-selected: #4b2e2a;
   height: calc(72px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 -8px 24px -12px rgba(75, 46, 42, 0.18);
+  -webkit-backdrop-filter: var(--kk-glass-blur);
+  backdrop-filter: var(--kk-glass-blur);
 }
 
 ion-tab-button {
@@ -114,7 +151,7 @@ ion-tab-button.tab-selected .tab-icon {
 }
 
 ion-header.kk-header {
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 24px -16px rgba(75, 46, 42, 0.25);
 }
 
 ion-footer.kk-footer {
@@ -124,8 +161,18 @@ ion-footer.kk-footer {
 /* Bottom sheet sesuai DESIGN.md: radius atas 24px & grab handle krem */
 ion-modal.kk-sheet {
   --border-radius: 24px;
-  --background: #ffffff;
-  --backdrop-opacity: 0.55;
+  --background: var(--kk-glass-strong);
+  --backdrop-opacity: 0.4;
+}
+
+ion-modal.kk-sheet::part(content) {
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  backdrop-filter: blur(28px) saturate(170%);
+}
+
+ion-modal.kk-sheet .ion-page {
+  background: transparent;
 }
 
 ion-modal.kk-sheet::part(handle) {
@@ -135,7 +182,8 @@ ion-modal.kk-sheet::part(handle) {
 }
 
 ion-modal.kk-sheet::part(backdrop) {
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 /* Sheet dengan tinggi menyesuaikan isi */
@@ -155,7 +203,7 @@ ion-modal.kk-auto .kk-scroll {
 }
 
 ion-toast.kk-toast {
-  --background: #1f4d36;
+  --background: rgba(31, 77, 54, 0.9);
   --color: #ffffff;
   --border-radius: 16px;
   --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
@@ -164,7 +212,7 @@ ion-toast.kk-toast {
 }
 
 ion-toast.kk-toast-info {
-  --background: #31302d;
+  --background: rgba(49, 48, 45, 0.9);
 }
 
 ion-refresher ion-refresher-content {
@@ -182,5 +230,15 @@ ion-refresher ion-refresher-content {
 }
 
 ion-alert.kk-alert {
-  --background: #ffffff;
+  --background: var(--kk-glass-strong);
+}
+
+ion-alert.kk-alert .alert-wrapper,
+ion-action-sheet .action-sheet-group {
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  backdrop-filter: blur(28px) saturate(170%);
+}
+
+ion-action-sheet {
+  --background: var(--kk-glass-strong);
 }

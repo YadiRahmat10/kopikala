@@ -281,7 +281,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
 
       {/* Detail meja terpilih (bottom sheet menempel) */}
       <IonFooter className="kk-footer ion-no-border">
-        <div className="rounded-t-3xl bg-surface-container-lowest px-4 pb-3 pt-2 shadow-[0_-6px_24px_rgba(0,0,0,0.08)]">
+        <div className="glass rounded-t-3xl border-b-0 px-4 pb-3 pt-2">
           <button type="button" aria-label={sheetOpen ? 'Ciutkan detail meja' : 'Buka detail meja'} onClick={() => setSheetOpen((v) => !v)} className="mx-auto mb-1 flex h-4 w-16 items-center justify-center">
             <span className="h-1 w-9 rounded-full bg-[#e8d8c4]" />
           </button>

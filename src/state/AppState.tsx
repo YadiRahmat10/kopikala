@@ -25,6 +25,17 @@ function save(key: string, value: unknown) {
   }
 }
 
+/** Data tersimpan dari versi lama masih memakai URL gambar eksternal; ganti dengan foto lokal dari seed. */
+function withLocalImages(data: AppData): AppData {
+  const seed = createSeed();
+  const pick = <T extends { id: string; image?: string }>(list: T[], seedList: T[]) =>
+    list.map((it) => {
+      const fresh = seedList.find((s) => s.id === it.id)?.image;
+      return fresh && it.image?.startsWith('https://lh3.googleusercontent.com/') ? { ...it, image: fresh } : it;
+    });
+  return { ...data, menu: pick(data.menu, seed.menu), shows: pick(data.shows, seed.shows) };
+}
+
 const uid = (p: string) => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
 
 export type NewMenuInput = Omit<MenuItem, 'id' | 'sku' | 'createdAt'>;
@@ -72,7 +83,7 @@ interface AppState {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<AppData>(() => load(DATA_KEY, () => createSeed()));
+  const [data, setData] = useState<AppData>(() => withLocalImages(load(DATA_KEY, () => createSeed())));
   const [isStaff, setIsStaff] = useState<boolean>(() => load(STAFF_KEY, () => false));
   const [now, setNow] = useState(Date.now());
   const [lastAddedId, setLastAddedId] = useState<string | null>(null);

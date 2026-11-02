@@ -296,7 +296,7 @@ const Dashboard: React.FC = () => {
                 </button>
               </div>
               <div className="flex gap-3 rounded-xl bg-surface-container-low p-3">
-                <img src={IMG.bandStage} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+                <img src={tonight.image ?? IMG.bandStage} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="text-label-lg text-primary">{tonight.title}</span>

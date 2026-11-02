@@ -120,7 +120,7 @@ const Home: React.FC = () => {
             {tonight ? (
               <>
                 <div className="flex items-center gap-4 rounded-lg bg-surface-container-low p-2">
-                  <img src={IMG.bandSmall} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+                  <img src={tonight.image ?? IMG.bandSmall} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate text-headline-sm text-primary">{tonight.title}</span>
                     <span className="mt-0.5 truncate text-label-md text-secondary">{tonight.genre}</span>

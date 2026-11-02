@@ -65,7 +65,7 @@ const StaffLive: React.FC = () => {
                 <Badge tone={ready === checks.length ? 'green' : 'amber'} dot>{ready === checks.length ? 'Siap Tampil' : `${ready}/${checks.length} Siap`}</Badge>
               </div>
               <div className="flex gap-3">
-                <img src={IMG.bandStage} alt="" className="h-20 w-20 shrink-0 rounded-xl object-cover" />
+                <img src={tonight.image ?? IMG.bandStage} alt="" className="h-20 w-20 shrink-0 rounded-xl object-cover" />
                 <div className="min-w-0">
                   <h2 className="text-headline-sm text-primary">{tonight.title}</h2>
                   <p className="text-body-sm text-secondary">{tonight.genre}</p>

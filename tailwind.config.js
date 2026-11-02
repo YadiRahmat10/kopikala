@@ -1,17 +1,18 @@
-/** Token diambil dari stitch_coffe/artisanal_cafe_mobile/DESIGN.md */
+/** Token diambil dari stitch_coffe/artisanal_cafe_mobile/DESIGN.md
+ *  surface-container* dibuat semi-transparan untuk tema glassy */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        'surface-container-lowest': '#ffffff',
+        'surface-container-lowest': 'rgba(255, 255, 255, 0.62)',
         'inverse-surface': '#31302d',
         'secondary-container': '#fdbdab',
         'on-surface': '#1c1c19',
         'inverse-on-surface': '#f4f0eb',
         'on-primary': '#ffffff',
-        'surface-container': '#f1ede8',
+        'surface-container': 'rgba(120, 82, 66, 0.08)',
         'on-primary-container': '#be958f',
         'surface-bright': '#fdf9f4',
         'surface-variant': '#e6e2dd',
@@ -22,14 +23,14 @@ export default {
         error: '#ba1a1a',
         primary: '#331916',
         'on-secondary-container': '#794a3c',
-        'surface-container-high': '#ebe8e3',
+        'surface-container-high': 'rgba(120, 82, 66, 0.13)',
         'primary-container': '#4b2e2a',
         background: '#fdf9f4',
         'error-container': '#ffdad6',
         surface: '#fdf9f4',
-        'surface-container-highest': '#e6e2dd',
+        'surface-container-highest': 'rgba(120, 82, 66, 0.18)',
         secondary: '#835244',
-        'surface-container-low': '#f7f3ee',
+        'surface-container-low': 'rgba(255, 255, 255, 0.42)',
         'tertiary-fixed': '#f0e0cc',
         'secondary-fixed': '#ffdbd0',
         'outline-variant': '#d4c3c0',

@@ -104,7 +104,7 @@ export function AddMenuModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   return (
     <IonModal isOpen={isOpen} onDidDismiss={() => { onClose(); reset(); }} breakpoints={[0, 0.94]} initialBreakpoint={0.94} className="kk-sheet">
       <IonHeader className="ion-no-border">
-        <div className="border-b border-surface-container bg-white px-4 pb-3 pt-5">
+        <div className="border-b border-white/60 bg-white/40 px-4 pb-3 pt-5">
           <div className="flex items-start justify-between gap-2">
             <div>
               <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ export function AddMenuModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         </div>
       </IonHeader>
 
-      <IonContent ref={contentRef} style={{ '--background': '#ffffff' } as React.CSSProperties}>
+      <IonContent ref={contentRef}>
         <div className="flex flex-col gap-5 px-4 pb-6 pt-4">
           {saved && (
             <div className="flex gap-3 rounded-2xl bg-[#1f4d36] p-4 text-white shadow-lg">
@@ -315,7 +315,7 @@ export function AddMenuModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
       </IonContent>
 
       <IonFooter className="ion-no-border">
-        <div className="flex gap-2 border-t border-surface-container bg-white px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
+        <div className="flex gap-2 border-t border-white/60 bg-white/40 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
           <button type="button" onClick={onClose} className="btn-soft shrink-0 px-5">Batal</button>
           <button type="button" onClick={submit} className="btn-primary flex-1 whitespace-nowrap">
             <Icon name="check_circle" size={20} />
