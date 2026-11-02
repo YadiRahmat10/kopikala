@@ -184,8 +184,10 @@ ion-tabs .ion-page:not(:has(ion-footer)) ion-content {
   --padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
 }
 
-ion-tabs ion-footer {
-  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+/* Jarak dari dock dipasang di isi footer (bukan footer-nya) agar panel kaca,
+   mis. detail meja, tetap memanjang sampai tepi bawah layar di belakang dock */
+ion-tabs ion-footer > :first-child {
+  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 ion-tab-button {
