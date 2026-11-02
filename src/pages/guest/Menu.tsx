@@ -34,7 +34,6 @@ function StockBadge({ m }: { m: MenuItem }) {
   if (s === "habis")
     return (
       <span className="chip absolute left-3 top-3 bg-red-50/95 text-red-700">
-        <span className="h-1.5 w-1.5 rounded-full bg-red-600" />
         Habis Hari Ini
       </span>
     );
@@ -47,7 +46,6 @@ function StockBadge({ m }: { m: MenuItem }) {
     );
   return (
     <span className="chip absolute left-3 top-3 bg-emerald-50/95 text-emerald-800">
-      <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
       Tersedia
     </span>
   );
@@ -182,7 +180,6 @@ const Menu: React.FC = () => {
 
           <div className="-mt-1 flex items-center justify-between text-label-md">
             <span className="flex items-center gap-1.5 font-semibold text-on-surface-variant">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-secondary" />
               Stok diupdate live oleh Barista Kala
             </span>
             <span className="font-medium text-on-surface-variant">

@@ -59,12 +59,12 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
   const selected = data.tables.find((t) => t.id === selectedId) ?? data.tables[0];
   const selectedStatus = statusOf(selected);
 
-  const statusChips: { key: StatusFilter; label: string; n: number; dot?: string }[] = [
+  const statusChips: { key: StatusFilter; label: string; n: number }[] = [
     { key: 'semua', label: 'Semua', n: stats.total },
-    { key: 'kosong', label: 'Kosong', n: stats.free, dot: 'bg-emerald-600' },
-    { key: 'terisi', label: 'Terisi', n: staff ? stats.busy - stats.dirty : stats.busy, dot: 'bg-red-600' },
-    { key: 'dipesan', label: 'Dipesan', n: stats.reserved, dot: 'bg-orange-500' },
-    ...(staff ? [{ key: 'kotor' as const, label: 'Kotor', n: stats.dirty, dot: 'bg-amber-500' }] : []),
+    { key: 'kosong', label: 'Kosong', n: stats.free },
+    { key: 'terisi', label: 'Terisi', n: staff ? stats.busy - stats.dirty : stats.busy },
+    { key: 'dipesan', label: 'Dipesan', n: stats.reserved },
+    ...(staff ? [{ key: 'kotor' as const, label: 'Kotor', n: stats.dirty }] : []),
   ];
 
   const doRefresh = () => {
@@ -122,7 +122,6 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
                 <span className="flex items-center gap-1.5 text-label-sm uppercase tracking-wider text-secondary">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-600" />
                   Ketersediaan Meja Live
                 </span>
                 <h2 className="mt-1 text-headline-md text-primary">{stats.free} Meja Kosong</h2>
@@ -179,7 +178,6 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
                 const active = statusFilter === c.key;
                 return (
                   <button key={c.key} type="button" onClick={() => setStatusFilter(c.key)} className={`filter-chip ${active ? 'filter-chip-active' : ''}`}>
-                    {c.dot && <span className={`h-2 w-2 rounded-full ${c.dot}`} />}
                     {c.label}
                     <span className={`rounded-full px-1.5 text-label-sm ${active ? 'bg-white/20' : 'bg-surface-container'}`}>{c.n}</span>
                   </button>
@@ -220,7 +218,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
                         <span className="text-label-md font-semibold text-on-surface-variant">{t.area}</span>
                         <p className="text-counter text-primary">{pad2(t.id)}</p>
                       </div>
-                      <Badge tone={TABLE_BADGE[st].tone} dot className="!px-2 !py-0.5 !text-[10px]">{TABLE_BADGE[st].label}</Badge>
+                      <Badge tone={TABLE_BADGE[st].tone} className="!px-2 !py-0.5 !text-[10px]">{TABLE_BADGE[st].label}</Badge>
                     </div>
                     <div className="mt-3 flex flex-col gap-1.5 border-t border-[rgba(75,46,42,0.08)] pt-2.5">
                       <span className="flex items-center gap-1.5 text-label-md font-medium text-on-surface-variant">
@@ -254,7 +252,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
                       <p className="truncate text-label-md font-medium text-on-surface-variant">{t.seatLabel} • {t.feature}</p>
                       <p className={`truncate text-label-md font-semibold ${note.cls}`}>{note.text}</p>
                     </div>
-                    <Badge tone={TABLE_BADGE[st].tone} dot>{TABLE_BADGE[st].label}</Badge>
+                    <Badge tone={TABLE_BADGE[st].tone}>{TABLE_BADGE[st].label}</Badge>
                   </button>
                 );
               })}
@@ -289,7 +287,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
             <button type="button" onClick={() => setSheetOpen((v) => !v)} className="min-w-0 text-left">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-headline-md text-primary">Meja {pad2(selected.id)}</h3>
-                <Badge tone={TABLE_BADGE[selectedStatus].tone} dot>{TABLE_BADGE[selectedStatus].long}</Badge>
+                <Badge tone={TABLE_BADGE[selectedStatus].tone}>{TABLE_BADGE[selectedStatus].long}</Badge>
                 <Icon name={sheetOpen ? 'expand_more' : 'expand_less'} size={20} className="text-on-surface-variant" />
               </div>
               <p className="mt-0.5 truncate text-body-sm text-on-surface-variant">

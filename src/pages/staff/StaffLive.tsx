@@ -62,7 +62,7 @@ const StaffLive: React.FC = () => {
             <section className="card">
               <div className="flex items-center justify-between">
                 <span className="eyebrow">Panggung Malam Ini</span>
-                <Badge tone={ready === checks.length ? 'green' : 'amber'} dot>{ready === checks.length ? 'Siap Tampil' : `${ready}/${checks.length} Siap`}</Badge>
+                <Badge tone={ready === checks.length ? 'green' : 'amber'}>{ready === checks.length ? 'Siap Tampil' : `${ready}/${checks.length} Siap`}</Badge>
               </div>
               <div className="flex gap-3">
                 <img src={tonight.image ?? IMG.bandStage} alt="" className="h-20 w-20 shrink-0 rounded-xl object-cover" />

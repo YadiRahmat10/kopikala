@@ -24,21 +24,11 @@ const TONES = {
   cream: 'bg-surface-container text-primary-container',
 } as const;
 
-const DOTS: Partial<Record<keyof typeof TONES, string>> = {
-  green: 'bg-emerald-600',
-  red: 'bg-red-600',
-  orange: 'bg-orange-500',
-  amber: 'bg-amber-500',
-  muted: 'bg-neutral-400',
-  rose: 'bg-secondary',
-};
-
 export type Tone = keyof typeof TONES;
 
-export function Badge({ tone, dot, pulse, icon, children, className = '' }: { tone: Tone; dot?: boolean; pulse?: boolean; icon?: string; children: ReactNode; className?: string }) {
+export function Badge({ tone, icon, children, className = '' }: { tone: Tone; icon?: string; children: ReactNode; className?: string }) {
   return (
     <span className={`chip ${TONES[tone]} ${className}`}>
-      {dot && <span className={`h-1.5 w-1.5 rounded-full ${DOTS[tone]} ${pulse ? 'animate-pulse' : ''}`} />}
       {icon && <Icon name={icon} size={14} />}
       {children}
     </span>

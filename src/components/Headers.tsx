@@ -31,11 +31,8 @@ export function GuestHeader() {
               <span
                 className={`mt-0.5 inline-flex w-fit items-center gap-1 rounded-full px-1.5 py-0.5 text-label-sm ${open ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-700"}`}
               >
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${open ? "animate-pulse bg-emerald-600" : "bg-red-600"}`}
-                />
-                {open ? "Buka" : "Tutup"} • {pad2(CAFE.open)}.00 -{" "}
-                {pad2(CAFE.close)}.00
+                {open ? "Buka" : "Tutup"} : ( {pad2(CAFE.open)}.00 -{" "}
+                {pad2(CAFE.close)}.00 )
               </span>
             </div>
           </div>
@@ -103,7 +100,6 @@ export function StaffHeader({ title }: { title: string }) {
                 {title}
               </h1>
               <span className="chip bg-secondary-container/70 text-on-secondary-container">
-                <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
                 {CAFE.shift}
               </span>
             </div>

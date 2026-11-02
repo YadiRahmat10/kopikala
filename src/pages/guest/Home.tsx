@@ -52,7 +52,6 @@ const Home: React.FC = () => {
           {/* Status & Quick Sync Bar */}
           <div className="flex items-center justify-between rounded-full bg-surface-container-low px-4 py-2.5 shadow-sm">
             <div className="flex min-w-0 items-center gap-2">
-              <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-emerald-600" />
               <span className="truncate text-label-sm text-on-surface-variant">
                 Diperbarui <span className="text-on-surface">{syncLabel(data.lastSync, now)}</span> • Live Data
               </span>
@@ -69,7 +68,7 @@ const Home: React.FC = () => {
                 <span className="eyebrow">Kondisi Tempat</span>
                 <h2 className="mt-0.5 text-headline-sm text-primary">Ketersediaan Meja</h2>
               </div>
-              <Badge tone={stats.free ? 'green' : 'red'} dot>{pct}% Tersedia</Badge>
+              <Badge tone={stats.free ? 'green' : 'red'}>{pct}% Tersedia</Badge>
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex items-baseline gap-1.5">
@@ -115,7 +114,7 @@ const Home: React.FC = () => {
                 </div>
                 <h2 className="text-headline-sm text-primary">Live Music Malam Ini</h2>
               </div>
-              {tonight ? <Badge tone="green" dot pulse>Ada Jadwal</Badge> : <Badge tone="muted">Libur</Badge>}
+              {tonight ? <Badge tone="green">Ada Jadwal</Badge> : <Badge tone="muted">Libur</Badge>}
             </div>
             {tonight ? (
               <>
@@ -175,7 +174,7 @@ const Home: React.FC = () => {
                         <span className="truncate text-label-sm font-medium text-on-surface-variant">{m.subtitle}</span>
                       </div>
                     </div>
-                    <Badge tone={MENU_BADGE[s]} dot={s === 'tersedia'}>{menuBadgeLabel(m)}</Badge>
+                    <Badge tone={MENU_BADGE[s]}>{menuBadgeLabel(m)}</Badge>
                   </div>
                 );
               })}

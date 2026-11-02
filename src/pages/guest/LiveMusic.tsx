@@ -54,7 +54,6 @@ const LiveMusic: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-primary/70 to-primary" />
               <div className="relative flex flex-col gap-3 p-4 pt-4">
                 <span className="chip w-fit bg-white/90 text-primary">
-                  <span className={`h-2 w-2 rounded-full ${tonight ? 'animate-pulse bg-emerald-600' : 'bg-neutral-400'}`} />
                   {tonight ? 'ADA LIVE MUSIC MALAM INI' : 'MALAM INI LIBUR • JADWAL BERIKUTNYA'}
                 </span>
                 <div className="mt-20">
@@ -133,7 +132,7 @@ const LiveMusic: React.FC = () => {
                 <article key={s.id} className={`flex flex-col gap-3 rounded-xl p-4 ${s.hasLive ? 'bg-surface-container-lowest shadow-sm' : 'bg-surface-container-low'}`}>
                   <div className="flex items-center justify-between">
                     <span className={`text-label-md font-semibold ${s.hasLive ? 'text-secondary' : 'text-on-surface-variant'}`}>{fmtShortDate(dayDate(s.dayOffset, now))}</span>
-                    {s.hasLive ? <Badge tone="green" dot>ADA</Badge> : <Badge tone="muted">TIDAK ADA</Badge>}
+                    {s.hasLive ? <Badge tone="green">ADA</Badge> : <Badge tone="muted">TIDAK ADA</Badge>}
                   </div>
                   <div className="flex items-start gap-3">
                     <div className={`icon-btn h-11 w-11 rounded-lg ${s.hasLive ? 'bg-surface-container text-primary' : 'bg-surface-container text-on-surface-variant'}`}>

@@ -84,9 +84,8 @@ const Dashboard: React.FC = () => {
             <Icon name="local_cafe" size={110} className="pointer-events-none absolute -bottom-6 -right-4 text-surface-container-highest" />
             <div className="relative flex items-start justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge tone="rose" dot>Mode Staf Aktif</Badge>
+                <Badge tone="rose">Mode Staf Aktif</Badge>
                 <span className="flex items-center gap-1 text-label-sm font-semibold text-on-surface-variant">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
                   Online • {Math.max(1, minutesAgo(data.lastSync, now))} mnt lalu
                 </span>
               </div>
@@ -150,7 +149,6 @@ const Dashboard: React.FC = () => {
                 <Icon name="music_note" size={18} className="text-secondary" />
               </div>
               <p className="flex items-center gap-2 text-headline-sm text-primary">
-                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-600" />
                 {tonight.title}
               </p>
               <p className="text-body-sm text-on-surface-variant">
@@ -350,7 +348,6 @@ const Dashboard: React.FC = () => {
             <ol className="flex flex-col gap-3">
               {data.logs.slice(0, 6).map((l) => (
                 <li key={l.id} className="flex gap-3">
-                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-secondary" />
                   <div className="text-body-sm text-on-surface">
                     <b>{l.who}</b> {l.text}{' '}
                     <b className={l.tone === 'success' ? 'text-emerald-700' : l.tone === 'danger' ? 'text-red-700' : 'text-secondary'}>{l.highlight}</b>

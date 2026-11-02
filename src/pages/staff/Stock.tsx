@@ -69,7 +69,6 @@ const Stock: React.FC = () => {
                 <h1 className="mt-0.5 text-headline-md text-primary">Kelola Stok &amp; Menu</h1>
               </div>
               <span className="chip mt-1 bg-secondary-container/80 text-on-secondary-container">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-primary-container" />
                 Sinkron Live Dapur
               </span>
             </div>
@@ -168,7 +167,7 @@ const Stock: React.FC = () => {
                       <span className="ml-2 font-bold text-primary">{rupiah(m.price)}</span>
                     </p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
-                      <Badge tone={MENU_BADGE[s]} dot>{statusText(m)}</Badge>
+                      <Badge tone={MENU_BADGE[s]}>{statusText(m)}</Badge>
                       {!m.active && <Badge tone="muted">Disembunyikan</Badge>}
                     </div>
                   </div>
