@@ -78,6 +78,8 @@ export interface Stage {
 export interface CartLine {
   menuId: string;
   qty: number;
+  /** catatan pelanggan untuk barista; menu yang sama dengan catatan berbeda jadi baris terpisah */
+  note?: string;
 }
 
 export interface AppData {

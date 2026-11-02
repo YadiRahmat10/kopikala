@@ -3,16 +3,23 @@ import { IonModal } from '@ionic/react';
 import { useApp } from '../state/AppState';
 import { pad2, rupiah } from '../lib/format';
 import { Icon, Stepper, useToast } from './ui';
+import { MenuNoteSheet } from './MenuNoteSheet';
+import type { CartLine } from '../data/types';
 
 export function CartModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const { data, changeCart, placeOrder } = useApp();
+  const { data, changeCart, editCartLine, placeOrder } = useApp();
   const toast = useToast();
   const [table, setTable] = useState<number | null>(null);
+  const [editing, setEditing] = useState<CartLine | null>(null);
 
   const lines = data.cart
     .map((c) => ({ ...c, item: data.menu.find((m) => m.id === c.menuId)! }))
     .filter((l) => l.item);
   const total = lines.reduce((s, l) => s + l.item.price * l.qty, 0);
+  /** sisa kuota yang masih bisa ditambahkan ke baris ini (stok dikurangi menu sama di baris lain) */
+  const roomFor = (line: CartLine, stock: number | null) =>
+    stock === null ? undefined : stock - data.cart.filter((c) => c.menuId === line.menuId && (c.note ?? '') !== (line.note ?? '')).reduce((s, c) => s + c.qty, 0);
+  const editingItem = editing ? data.menu.find((m) => m.id === editing.menuId) ?? null : null;
   const choices = data.tables.filter((t) => t.status === 'kosong' || t.id === data.savedTable || t.id === table);
 
   useEffect(() => {
@@ -39,14 +46,18 @@ export function CartModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         </div>
 
         <div className="mt-4 flex flex-col divide-y divide-[rgba(75,46,42,0.08)]">
-          {lines.map(({ item, qty }) => (
-            <div key={item.id} className="flex items-center gap-3 py-3">
+          {lines.map(({ item, ...line }) => (
+            <div key={`${item.id}|${line.note ?? ''}`} className="flex items-center gap-3 py-3">
               <img src={item.image} alt="" className="h-12 w-12 rounded-lg object-cover" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-label-lg text-primary">{item.name}</p>
-                <p className="text-label-md text-secondary">{rupiah(item.price * qty)}</p>
+                <p className="text-label-md text-secondary">{rupiah(item.price * line.qty)}</p>
+                <button type="button" onClick={() => setEditing(line)} className="mt-0.5 flex max-w-full items-start gap-1 text-left text-label-md font-medium text-on-surface-variant">
+                  <Icon name={line.note ? 'edit_note' : 'add'} size={16} className="shrink-0" />
+                  <span className={line.note ? 'line-clamp-2 italic' : 'underline'}>{line.note || 'Tambah catatan'}</span>
+                </button>
               </div>
-              <Stepper size="sm" value={qty} min={0} max={item.stock ?? undefined} onChange={(d) => changeCart(item.id, d)} />
+              <Stepper size="sm" value={line.qty} min={0} max={roomFor(line, item.stock)} onChange={(d) => changeCart(item.id, d, line.note)} />
             </div>
           ))}
         </div>
@@ -77,6 +88,16 @@ export function CartModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         </button>
         <p className="mt-2 text-center text-label-md font-medium text-on-surface-variant">Bayar di kasir setelah pesanan diantar</p>
       </div>
+      <MenuNoteSheet
+        item={editingItem}
+        initial={editing ? { qty: editing.qty, note: editing.note ?? '' } : undefined}
+        maxQty={editing && editingItem ? roomFor(editing, editingItem.stock) : undefined}
+        onClose={() => setEditing(null)}
+        onSubmit={(qty, note) => {
+          if (editing) editCartLine(editing.menuId, editing.note ?? '', { qty, note });
+          setEditing(null);
+        }}
+      />
     </IonModal>
   );
 }

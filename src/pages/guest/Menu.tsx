@@ -10,6 +10,7 @@ import { useApp } from "../../state/AppState";
 import { menuStatus, rupiah } from "../../lib/format";
 import { GuestHeader } from "../../components/Headers";
 import { CartModal } from "../../components/CartModal";
+import { MenuNoteSheet } from "../../components/MenuNoteSheet";
 import {
   ChipRow,
   EmptyState,
@@ -62,6 +63,7 @@ const Menu: React.FC = () => {
   const [lowOnly, setLowOnly] = useState(false);
   const [staffEdit, setStaffEdit] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [picked, setPicked] = useState<MenuItem | null>(null);
 
   const editing = staffEdit && isStaff;
   const visible = data.menu.filter((m) => m.active);
@@ -89,7 +91,9 @@ const Menu: React.FC = () => {
     0,
   );
   const inCart = (id: string) =>
-    data.cart.find((c) => c.menuId === id)?.qty ?? 0;
+    data.cart
+      .filter((c) => c.menuId === id)
+      .reduce((s, c) => s + c.qty, 0);
 
   const resetFilters = () => {
     setQuery("");
@@ -311,10 +315,7 @@ const Menu: React.FC = () => {
                           type="button"
                           aria-label={`Tambah ${m.name}`}
                           disabled={maxed}
-                          onClick={() => {
-                            addToCart(m.id);
-                            toast(`${m.name} ditambahkan`);
-                          }}
+                          onClick={() => setPicked(m)}
                           className="icon-btn h-12 w-12 bg-primary-container text-on-primary shadow-md disabled:opacity-40"
                         >
                           <Icon name="add" size={24} />
@@ -351,6 +352,19 @@ const Menu: React.FC = () => {
         </IonFooter>
       )}
       <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <MenuNoteSheet
+        item={picked}
+        maxQty={
+          picked?.stock != null ? picked.stock - inCart(picked.id) : undefined
+        }
+        onClose={() => setPicked(null)}
+        onSubmit={(qty, note) => {
+          if (!picked) return;
+          addToCart(picked.id, qty, note);
+          toast(`${qty}x ${picked.name} ditambahkan`);
+          setPicked(null);
+        }}
+      />
     </IonPage>
   );
 };

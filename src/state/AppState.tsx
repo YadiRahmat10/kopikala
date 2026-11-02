@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { ActivityLog, AppData, CafeTable, MenuItem, Show, Stage, TableStatus } from '../data/types';
+import type { ActivityLog, AppData, CafeTable, CartLine, MenuItem, Show, Stage, TableStatus } from '../data/types';
 import { CAFE, createSeed } from '../data/seed';
 import { pad2 } from '../lib/format';
 
@@ -36,6 +36,15 @@ function withLocalImages(data: AppData): AppData {
   return { ...data, menu: pick(data.menu, seed.menu), shows: pick(data.shows, seed.shows) };
 }
 
+const sameLine = (c: CartLine, menuId: string, note: string) => c.menuId === menuId && (c.note ?? '') === note;
+
+/** Tambah qty ke baris menu+catatan yang sama, atau buat baris baru. */
+function mergeLine(cart: CartLine[], menuId: string, qty: number, note: string): CartLine[] {
+  return cart.some((c) => sameLine(c, menuId, note))
+    ? cart.map((c) => (sameLine(c, menuId, note) ? { ...c, qty: c.qty + qty } : c))
+    : [...cart, { menuId, qty, ...(note ? { note } : {}) }];
+}
+
 const uid = (p: string) => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
 
 export type NewMenuInput = Omit<MenuItem, 'id' | 'sku' | 'createdAt'>;
@@ -69,8 +78,9 @@ interface AppState {
   addMenu: (input: NewMenuInput) => MenuItem;
   dismissAnnouncement: (id: string) => void;
 
-  addToCart: (menuId: string) => void;
-  changeCart: (menuId: string, delta: number) => void;
+  addToCart: (menuId: string, qty?: number, note?: string) => void;
+  changeCart: (menuId: string, delta: number, note?: string) => void;
+  editCartLine: (menuId: string, oldNote: string, next: { qty: number; note: string }) => void;
   clearCart: () => void;
   placeOrder: (tableId: number | null) => void;
 
@@ -256,26 +266,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
     },
     dismissAnnouncement: (id) => setData((d) => ({ ...d, announcements: d.announcements.filter((a) => a !== id) })),
 
-    addToCart: (menuId) =>
-      setData((d) => {
-        const line = d.cart.find((c) => c.menuId === menuId);
-        return {
-          ...d,
-          cart: line ? d.cart.map((c) => (c.menuId === menuId ? { ...c, qty: c.qty + 1 } : c)) : [...d.cart, { menuId, qty: 1 }],
-        };
-      }),
-    changeCart: (menuId, delta) =>
+    addToCart: (menuId, qty = 1, note = '') =>
+      setData((d) => ({ ...d, cart: mergeLine(d.cart, menuId, qty, note.trim()) })),
+    changeCart: (menuId, delta, note = '') =>
       setData((d) => ({
         ...d,
-        cart: d.cart.map((c) => (c.menuId === menuId ? { ...c, qty: c.qty + delta } : c)).filter((c) => c.qty > 0),
+        cart: d.cart.map((c) => (sameLine(c, menuId, note) ? { ...c, qty: c.qty + delta } : c)).filter((c) => c.qty > 0),
       })),
+    editCartLine: (menuId, oldNote, next) =>
+      setData((d) => {
+        const rest = d.cart.filter((c) => !sameLine(c, menuId, oldNote));
+        return { ...d, cart: next.qty > 0 ? mergeLine(rest, menuId, next.qty, next.note.trim()) : rest };
+      }),
     clearCart: () => setData((d) => ({ ...d, cart: [] })),
     placeOrder: (tableId) =>
       setData((d) => {
-        const summary = d.cart.map((c) => `${c.qty}x ${nameOf(d, c.menuId)}`).join(', ');
+        const summary = d.cart.map((c) => `${c.qty}x ${nameOf(d, c.menuId)}${c.note ? ` (${c.note})` : ''}`).join(', ');
         const menu = d.menu.map((m) => {
-          const line = d.cart.find((c) => c.menuId === m.id);
-          return line && m.stock !== null ? { ...m, stock: Math.max(0, m.stock - line.qty) } : m;
+          const qty = d.cart.filter((c) => c.menuId === m.id).reduce((s, c) => s + c.qty, 0);
+          return qty && m.stock !== null ? { ...m, stock: Math.max(0, m.stock - qty) } : m;
         });
         const tables = d.tables.map((t) =>
           t.id === tableId ? { ...t, status: 'terisi' as const, since: t.status === 'terisi' ? t.since : Date.now(), order: summary } : t,
