@@ -208,7 +208,7 @@ const Orders: React.FC = () => {
   return (
     <IonPage>
       <StaffHeader title="Pesanan" />
-      <IonContent>
+      <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={(e) => { refresh(); window.setTimeout(() => e.detail.complete(), 500); }}>
           <IonRefresherContent />
         </IonRefresher>

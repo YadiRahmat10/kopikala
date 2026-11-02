@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
   return (
     <IonPage>
       <StaffHeader title="Ringkasan" />
-      <IonContent>
+      <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={(e) => { refresh(); window.setTimeout(() => e.detail.complete(), 500); }}>
           <IonRefresherContent />
         </IonRefresher>

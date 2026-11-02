@@ -16,6 +16,9 @@ import '@fontsource/plus-jakarta-sans/800.css';
 import 'material-symbols/outlined.css';
 
 import './theme/global.css';
+import { applyGlass, loadGlass } from './components/GlassSettings';
+
+applyGlass(loadGlass());
 
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

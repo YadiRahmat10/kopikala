@@ -28,7 +28,7 @@ const LiveMusic: React.FC = () => {
   return (
     <IonPage>
       <GuestHeader />
-      <IonContent>
+      <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={(e) => { refresh(); window.setTimeout(() => e.detail.complete(), 500); }}>
           <IonRefresherContent />
         </IonRefresher>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IonHeader, useIonActionSheet } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useApp } from "../state/AppState";
@@ -5,10 +6,11 @@ import { CAFE } from "../data/seed";
 import { isOpen, pad2 } from "../lib/format";
 import { Icon } from "./ui";
 import { NotificationBell } from "./OrderNotifications";
+import { GlassSheet } from "./GlassSettings";
 
 function Logo() {
   return (
-    <div className="icon-btn h-9 w-9 bg-primary-container text-secondary-container">
+    <div className="icon-btn glass-tint h-9 w-9 text-secondary-container">
       <Icon name="local_cafe" size={20} fill />
     </div>
   );
@@ -18,6 +20,7 @@ export function GuestHeader() {
   const { now, session, isStaff, logout } = useApp();
   const history = useHistory();
   const [presentSheet] = useIonActionSheet();
+  const [glassOpen, setGlassOpen] = useState(false);
   const open = isOpen(now);
   const name = session?.name ?? "Tamu";
 
@@ -25,6 +28,7 @@ export function GuestHeader() {
     presentSheet({
       header: `Halo, ${name}`,
       buttons: [
+        { text: "Tampilan Kaca", handler: () => setGlassOpen(true) },
         {
           text: "Keluar",
           role: "destructive",
@@ -60,7 +64,7 @@ export function GuestHeader() {
             onClick={() =>
               isStaff ? history.push("/staf/ringkasan") : openAccount()
             }
-            className="flex min-h-[44px] max-w-[45%] shrink-0 items-center gap-1.5 rounded-full bg-surface-container-low py-1.5 pl-1.5 pr-3 transition-all hover:bg-surface-container active:scale-[0.98]"
+            className="glass-btn flex min-h-[44px] max-w-[45%] shrink-0 items-center gap-1.5 rounded-full py-1.5 pl-1.5 pr-3 transition-all active:scale-[0.98]"
           >
             <span className="icon-btn h-8 w-8 bg-primary-container text-label-lg text-on-primary">
               {isStaff ? (
@@ -81,6 +85,7 @@ export function GuestHeader() {
           </button>
         </div>
       </div>
+      <GlassSheet isOpen={glassOpen} onClose={() => setGlassOpen(false)} />
     </IonHeader>
   );
 }
@@ -89,6 +94,7 @@ export function StaffHeader({ title }: { title: string }) {
   const { logout } = useApp();
   const history = useHistory();
   const [presentSheet] = useIonActionSheet();
+  const [glassOpen, setGlassOpen] = useState(false);
 
   const openProfile = () =>
     presentSheet({
@@ -98,6 +104,7 @@ export function StaffHeader({ title }: { title: string }) {
           text: "Lihat Sebagai Pelanggan",
           handler: () => history.push("/tamu/beranda"),
         },
+        { text: "Tampilan Kaca", handler: () => setGlassOpen(true) },
         {
           text: "Keluar dari Admin",
           role: "destructive",
@@ -133,7 +140,7 @@ export function StaffHeader({ title }: { title: string }) {
               type="button"
               aria-label="Mode Tamu"
               onClick={() => history.push("/tamu/beranda")}
-              className="icon-btn h-11 w-11 bg-surface-container text-primary hover:bg-surface-container-high"
+              className="icon-btn glass-btn h-11 w-11 text-primary"
             >
               <Icon name="storefront" size={22} />
             </button>
@@ -141,7 +148,7 @@ export function StaffHeader({ title }: { title: string }) {
               type="button"
               aria-label="Profil staf"
               onClick={openProfile}
-              className="icon-btn relative h-11 w-11 bg-primary-container text-on-primary"
+              className="icon-btn glass-tint relative h-11 w-11 text-on-primary"
             >
               <Icon name="person" size={22} />
               <span className="absolute bottom-0.5 right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
@@ -149,6 +156,7 @@ export function StaffHeader({ title }: { title: string }) {
           </div>
         </div>
       </div>
+      <GlassSheet isOpen={glassOpen} onClose={() => setGlassOpen(false)} />
     </IonHeader>
   );
 }

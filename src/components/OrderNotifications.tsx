@@ -58,7 +58,7 @@ export function NotificationBell() {
         type="button"
         aria-label={unseen ? `Notifikasi, ${unseen} pesanan baru` : 'Notifikasi'}
         onClick={() => setOpen(true)}
-        className="icon-btn relative h-11 w-11 bg-surface-container text-primary hover:bg-surface-container-high"
+        className="icon-btn glass-btn relative h-11 w-11 text-primary"
       >
         <Icon name="notifications" size={22} fill={unseen > 0} />
         {unseen > 0 && (

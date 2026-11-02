@@ -107,7 +107,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
   return (
     <IonPage>
       {staff ? <StaffHeader title="Kelola Meja" /> : <GuestHeader />}
-      <IonContent>
+      <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={(e) => { refresh(); window.setTimeout(() => e.detail.complete(), 500); }}>
           <IonRefresherContent />
         </IonRefresher>

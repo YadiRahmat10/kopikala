@@ -57,7 +57,7 @@ const Stock: React.FC = () => {
   return (
     <IonPage>
       <StaffHeader title="Stok & Menu" />
-      <IonContent>
+      <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={(e) => { refresh(); window.setTimeout(() => e.detail.complete(), 500); }}>
           <IonRefresherContent />
         </IonRefresher>

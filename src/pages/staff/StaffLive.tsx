@@ -56,7 +56,7 @@ const StaffLive: React.FC = () => {
   return (
     <IonPage>
       <StaffHeader title="Live Music" />
-      <IonContent>
+      <IonContent fullscreen>
         <div className="flex flex-col gap-4 px-4 pb-8 pt-4">
           {tonight?.hasLive ? (
             <section className="card">

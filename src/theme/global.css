@@ -25,11 +25,28 @@
     radial-gradient(70vw 36vh at 0vw 100vh, rgba(222, 190, 150, 0.28), transparent 70%),
     var(--kk-base);
   --kk-ink: #2a1a14;
-  --kk-glass: rgba(255, 255, 255, 0.7);
-  --kk-glass-strong: rgba(250, 249, 247, 0.88);
-  --kk-glass-border: rgba(255, 255, 255, 0.85);
-  --kk-glass-blur: blur(24px) saturate(150%);
-  --kk-glass-shadow: 0 1px 2px rgba(42, 26, 20, 0.04), 0 14px 32px -18px rgba(42, 26, 20, 0.22);
+
+  /* ---- Liquid Glass (ala iOS 26/27) ----
+     --lg-alpha diatur slider "Kejernihan kaca" (0.2 = jernih, 0.9 = buram). */
+  --lg-alpha: 0.42;
+  --lg-fill: rgba(255, 255, 255, var(--lg-alpha));
+  /* kartu berisi teks butuh sedikit lebih buram agar tetap terbaca */
+  --lg-fill-card: rgba(255, 255, 255, calc(var(--lg-alpha) + 0.22));
+  --lg-sheen: linear-gradient(150deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 34%, rgba(255, 255, 255, 0) 62%, rgba(255, 255, 255, 0.22) 100%);
+  --lg-blur: blur(14px) saturate(185%) brightness(1.04);
+  /* tepi kaca: kilau spekular atas-kiri + pantulan lembut bawah-kanan + cahaya dalam */
+  --lg-edge: inset 0 1px 0.5px rgba(255, 255, 255, 0.95), inset 1px 0 0.5px rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0.5px rgba(255, 255, 255, 0.35), inset -1px 0 0.5px rgba(255, 255, 255, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.22);
+  --lg-drop: 0 12px 32px -14px rgba(42, 26, 20, 0.3), 0 1px 3px rgba(42, 26, 20, 0.06);
+  --lg-tint: rgba(42, 26, 20, 0.88);
+  --kk-glass-strong: rgba(250, 249, 247, calc(var(--lg-alpha) + 0.4));
+}
+
+/* Aksesibilitas: "Kurangi transparansi" di pengaturan sistem selalu menang */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --lg-alpha: 0.92 !important;
+  }
 }
 
 @layer base {
@@ -51,20 +68,47 @@
 
 @layer components {
   .glass {
-    background: var(--kk-glass);
-    border: 1px solid var(--kk-glass-border);
-    box-shadow: var(--kk-glass-shadow);
-    -webkit-backdrop-filter: var(--kk-glass-blur);
-    backdrop-filter: var(--kk-glass-blur);
+    background: var(--lg-sheen), var(--lg-fill-card);
+    border: 0.5px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--lg-edge), var(--lg-drop);
+    -webkit-backdrop-filter: var(--lg-blur);
+    backdrop-filter: var(--lg-blur);
   }
-  /* Header menyatu dengan latar: tanpa garis & bayangan, cukup sedikit kabut */
+  /* kontrol kaca bening: tombol bulat header, tombol sekunder, chip */
+  .glass-btn {
+    background: var(--lg-sheen), var(--lg-fill);
+    border: 0.5px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--lg-edge), 0 6px 16px -8px rgba(42, 26, 20, 0.28);
+    -webkit-backdrop-filter: var(--lg-blur);
+    backdrop-filter: var(--lg-blur);
+  }
+  /* kaca berwarna (prominent): aksi utama */
+  .glass-tint {
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 45%), var(--lg-tint);
+    border: 0.5px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 1px 0.5px rgba(255, 255, 255, 0.4), inset 0 -1px 0.5px rgba(0, 0, 0, 0.35), 0 12px 26px -12px rgba(42, 26, 20, 0.75);
+    -webkit-backdrop-filter: var(--lg-blur);
+    backdrop-filter: var(--lg-blur);
+  }
+  /* Header tanpa bar: konten memudar & mengabur di tepi atas (scroll edge effect) */
   .glass-bar {
-    background: linear-gradient(to bottom, rgba(236, 233, 229, 0.85), rgba(236, 233, 229, 0.55));
-    -webkit-backdrop-filter: var(--kk-glass-blur);
-    backdrop-filter: var(--kk-glass-blur);
+    position: relative;
+    isolation: isolate;
+  }
+  .glass-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 -28px 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(236, 233, 229, 0.82), rgba(236, 233, 229, 0.4) 60%, rgba(236, 233, 229, 0));
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
   }
   .card {
-    @apply glass flex flex-col gap-4 rounded-3xl p-5;
+    @apply glass flex flex-col gap-4 rounded-[28px] p-5;
   }
   .eyebrow {
     @apply text-label-md font-semibold text-on-surface-variant;
@@ -76,22 +120,22 @@
     @apply flex min-h-[50px] items-center justify-center gap-2 rounded-full px-5 py-3 text-label-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
   }
   .btn-primary {
-    @apply btn bg-primary-container text-on-primary shadow-[0_10px_24px_-12px_rgba(42,26,20,0.7)] hover:bg-primary;
+    @apply btn glass-tint text-on-primary;
   }
   .btn-soft {
-    @apply btn border border-[rgba(42,26,20,0.08)] bg-white/80 text-primary hover:bg-white;
+    @apply btn glass-btn text-primary;
   }
   .icon-btn {
     @apply flex shrink-0 items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-95;
   }
   .filter-chip {
-    @apply inline-flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[rgba(42,26,20,0.08)] bg-white/70 px-3.5 text-label-lg font-semibold text-on-surface-variant transition-colors;
+    @apply glass-btn inline-flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-label-lg font-semibold text-on-surface-variant transition-colors;
   }
   .filter-chip-active {
-    @apply border-primary-container bg-primary-container text-on-primary;
+    @apply glass-tint text-on-primary;
   }
   .input {
-    @apply w-full rounded-2xl border border-[rgba(42,26,20,0.08)] bg-white/80 px-4 py-3.5 text-body-lg text-on-surface outline-none transition-shadow placeholder:text-on-surface-variant/50 focus:border-primary/30 focus:ring-4 focus:ring-primary/10;
+    @apply w-full rounded-2xl border-[0.5px] border-white/70 bg-white/60 px-4 py-3.5 text-body-lg text-on-surface shadow-[inset_0_1px_2px_rgba(42,26,20,0.06)] outline-none transition-shadow placeholder:text-on-surface-variant/50 focus:ring-4 focus:ring-primary/10;
   }
   .scroll-x {
     @apply -mx-4 flex gap-2 overflow-x-auto px-4;
@@ -114,32 +158,53 @@ ion-content {
   --background: transparent;
 }
 
-/* Tab bar sebagai dock kaca melayang dengan indikator pill espresso */
+/* Tab bar = kapsul Liquid Glass yang melayang di atas konten; tab aktif ditandai "lensa" kaca */
 ion-tab-bar {
-  --background: rgba(255, 255, 255, 0.72);
+  --background: transparent;
   --border: 0;
-  --color: #6f625d;
+  --color: #5c4f4a;
   --color-selected: #2a1a14;
-  height: 68px !important;
-  margin: 0 12px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
-  padding: 0 6px !important;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 28px;
-  box-shadow: 0 18px 40px -16px rgba(42, 26, 20, 0.35), 0 2px 6px rgba(42, 26, 20, 0.05);
-  -webkit-backdrop-filter: var(--kk-glass-blur);
-  backdrop-filter: var(--kk-glass-blur);
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px !important;
+  margin: 0 16px calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+  padding: 4px !important;
+  border: 0.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  background: var(--lg-sheen), var(--lg-fill);
+  box-shadow: var(--lg-edge), 0 18px 40px -14px rgba(42, 26, 20, 0.4), 0 2px 6px rgba(42, 26, 20, 0.06);
+  -webkit-backdrop-filter: var(--lg-blur);
+  backdrop-filter: var(--lg-blur);
+}
+
+/* Konten (fullscreen) tetap bisa digulir sampai di atas dock */
+ion-tabs .ion-page:not(:has(ion-footer)) ion-content {
+  --padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+}
+
+ion-tabs ion-footer {
+  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
 }
 
 ion-tab-button {
   --ripple-color: transparent;
   --padding-top: 0;
   --padding-bottom: 0;
+  border-radius: 9999px;
   font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+ion-tab-button.tab-selected {
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+  box-shadow: inset 0 1px 0.5px #ffffff, inset 0 -1px 0.5px rgba(42, 26, 20, 0.06), 0 4px 12px -4px rgba(42, 26, 20, 0.2);
 }
 
 ion-tab-button ion-label {
-  margin-top: 3px;
-  font-size: 11px;
+  margin-top: 1px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0;
 }
@@ -149,24 +214,15 @@ ion-tab-button.tab-selected ion-label {
 }
 
 ion-tab-button .tab-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 30px;
-  border-radius: 9999px;
-  font-size: 22px !important;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 23px !important;
 }
 
 ion-tab-button.tab-selected .tab-icon {
-  background: #2a1a14;
-  color: #ffffff;
   font-variation-settings: 'FILL' 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ion-tab-button .tab-icon {
+  ion-tab-button {
     transition: none;
   }
 }
@@ -179,17 +235,21 @@ ion-footer.kk-footer {
   box-shadow: none;
 }
 
-/* Bottom sheet sesuai DESIGN.md: radius atas 24px & grab handle krem */
+/* Sheet Liquid Glass: melayang dengan jarak dari tepi layar & sudut besar */
 ion-modal.kk-sheet {
-  --border-radius: 28px;
-  --background: var(--kk-glass-strong);
-  --backdrop-opacity: 0.32;
+  --border-radius: 36px;
+  --background: var(--lg-sheen), var(--kk-glass-strong);
+  --backdrop-opacity: 0.22;
 }
 
 ion-modal.kk-sheet::part(content) {
-  border-top: 1px solid rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(28px) saturate(170%);
-  backdrop-filter: blur(28px) saturate(170%);
+  width: calc(100% - 16px);
+  margin: 0 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  border-radius: 36px;
+  border: 0.5px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--lg-edge), 0 24px 60px -20px rgba(42, 26, 20, 0.45);
+  -webkit-backdrop-filter: blur(30px) saturate(185%);
+  backdrop-filter: blur(30px) saturate(185%);
 }
 
 ion-modal.kk-sheet .ion-page {
@@ -203,8 +263,8 @@ ion-modal.kk-sheet::part(handle) {
 }
 
 ion-modal.kk-sheet::part(backdrop) {
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
 /* Sheet dengan tinggi menyesuaikan isi */
@@ -224,17 +284,22 @@ ion-modal.kk-auto .kk-scroll {
 }
 
 ion-toast.kk-toast {
-  --background: rgba(31, 77, 54, 0.9);
+  --background: rgba(31, 77, 54, 0.8);
   --color: #ffffff;
-  --border-radius: 16px;
+  --border-radius: 22px;
   --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 600;
 }
 
+ion-toast.kk-toast::part(container) {
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
 ion-toast.kk-toast-order {
-  --background: rgba(42, 26, 20, 0.94);
-  --button-color: #fdbdab;
+  --background: rgba(42, 26, 20, 0.84);
+  --button-color: #efdccb;
 }
 
 ion-toast.kk-toast-order::part(header) {
@@ -257,7 +322,17 @@ ion-tab-button ion-badge.kk-tab-badge {
 }
 
 ion-toast.kk-toast-info {
-  --background: rgba(49, 48, 45, 0.9);
+  --background: rgba(42, 26, 20, 0.8);
+}
+
+ion-range.kk-glass-range {
+  --bar-height: 6px;
+  --bar-border-radius: 9999px;
+  --bar-background: rgba(42, 26, 20, 0.12);
+  --bar-background-active: #2a1a14;
+  --knob-size: 28px;
+  --knob-background: #ffffff;
+  --knob-box-shadow: 0 2px 8px rgba(42, 26, 20, 0.25), inset 0 0 0 0.5px rgba(42, 26, 20, 0.08);
 }
 
 ion-refresher ion-refresher-content {

@@ -105,7 +105,7 @@ const Menu: React.FC = () => {
   return (
     <IonPage>
       <GuestHeader />
-      <IonContent>
+      <IonContent fullscreen>
         <IonRefresher
           slot="fixed"
           onIonRefresh={(e) => {
