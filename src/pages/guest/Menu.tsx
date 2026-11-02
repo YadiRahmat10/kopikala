@@ -53,7 +53,7 @@ function StockBadge({ m }: { m: MenuItem }) {
 }
 
 const Menu: React.FC = () => {
-  const { data, isStaff, refresh, requestStaff, changeStock, addToCart } =
+  const { data, isStaff, refresh, changeStock, addToCart } =
     useApp();
   const toast = useToast();
   const [query, setQuery] = useState("");
@@ -116,36 +116,34 @@ const Menu: React.FC = () => {
           <IonRefresherContent />
         </IonRefresher>
         <div className="flex flex-col gap-4 px-4 pb-8 pt-4">
-          {/* Banner akses barista */}
-          <div className="flex items-center justify-between gap-3 rounded-xl bg-secondary-container/80 p-3">
-            <div className="flex min-w-0 items-center gap-2.5">
-              <Icon
-                name="tune"
-                size={22}
-                className="text-on-secondary-container"
-              />
-              <div className="min-w-0">
-                <p className="text-label-sm uppercase tracking-wider text-on-secondary-container">
-                  Akses Barista
-                </p>
-                <p className="truncate text-body-sm text-primary">
-                  Kelola porsi instan aktif dengan stepper (+ / -)
-                </p>
+          {/* Banner akses barista (khusus admin) */}
+          {isStaff && (
+            <div className="flex items-center justify-between gap-3 rounded-xl bg-secondary-container/80 p-3">
+              <div className="flex min-w-0 items-center gap-2.5">
+                <Icon
+                  name="tune"
+                  size={22}
+                  className="text-on-secondary-container"
+                />
+                <div className="min-w-0">
+                  <p className="text-label-sm uppercase tracking-wider text-on-secondary-container">
+                    Akses Barista
+                  </p>
+                  <p className="truncate text-body-sm text-primary">
+                    Kelola porsi instan aktif dengan stepper (+ / -)
+                  </p>
+                </div>
               </div>
+              <button
+                type="button"
+                onClick={() => setStaffEdit(!editing)}
+                className={`flex min-h-[40px] shrink-0 items-center gap-1 rounded-full px-3.5 text-label-md font-bold transition-all active:scale-95 ${editing ? "bg-emerald-700 text-white" : "bg-primary text-on-primary"}`}
+              >
+                <Icon name={editing ? "check" : "bolt"} size={16} fill />
+                {editing ? "Selesai" : "Staf Edit"}
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() =>
-                editing
-                  ? setStaffEdit(false)
-                  : requestStaff(() => setStaffEdit(true))
-              }
-              className={`flex min-h-[40px] shrink-0 items-center gap-1 rounded-full px-3.5 text-label-md font-bold transition-all active:scale-95 ${editing ? "bg-emerald-700 text-white" : "bg-primary text-on-primary"}`}
-            >
-              <Icon name={editing ? "check" : "bolt"} size={16} fill />
-              {editing ? "Selesai" : "Staf Edit"}
-            </button>
-          </div>
+          )}
 
           {/* Pencarian */}
           <div className="flex gap-2">

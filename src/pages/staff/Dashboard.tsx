@@ -35,6 +35,9 @@ const Dashboard: React.FC = () => {
   const out = data.menu.filter((m) => menuStatus(m) === 'habis');
   const tonight = data.shows.find((s) => s.dayOffset === 0 && s.hasLive);
   const stage = data.stage;
+  const activeOrders = data.orders.filter((o) => o.status === 'baru' || o.status === 'diproses' || o.status === 'diantar');
+  const newOrders = activeOrders.filter((o) => o.status === 'baru').length;
+  const unpaidOrders = data.orders.filter((o) => !o.paid && o.status !== 'batal').length;
 
   const attention = data.tables
     .filter((t) => t.status === 'kotor' || t.status === 'dipesan' || (t.status === 'terisi' && minutesAgo(t.since ?? now, now) >= 60))
@@ -93,7 +96,7 @@ const Dashboard: React.FC = () => {
                 <button type="button" aria-label="Sinkronkan" onClick={doRefresh} className="icon-btn h-10 w-10 bg-surface-container-lowest text-primary shadow-sm">
                   <Icon name="sync" size={20} className={spinning ? 'kk-spin' : ''} />
                 </button>
-                <button type="button" aria-label="Keluar" onClick={() => { logout(); history.replace('/tamu/beranda'); }} className="icon-btn h-10 w-10 bg-red-50 text-red-700">
+                <button type="button" aria-label="Keluar" onClick={() => { logout(); history.replace('/masuk'); }} className="icon-btn h-10 w-10 bg-red-50 text-red-700">
                   <Icon name="logout" size={20} />
                 </button>
               </div>
@@ -101,6 +104,29 @@ const Dashboard: React.FC = () => {
             <h2 className="relative mt-3 text-headline-md text-primary">Halo, {CAFE.staffName} 👋</h2>
             <p className="relative text-body-sm text-on-surface-variant">{CAFE.shift}: {CAFE.shiftHours}</p>
           </section>
+
+          {/* Pesanan pelanggan */}
+          <button type="button" onClick={() => history.push('/staf/pesanan')} className={`card gap-3 text-left ${newOrders ? 'ring-2 ring-secondary/50' : ''}`}>
+            <div className="flex w-full items-center justify-between">
+              <span className="eyebrow">Pesanan Pelanggan</span>
+              <Icon name="receipt_long" size={18} className="text-secondary" />
+            </div>
+            <div className="grid w-full grid-cols-3 gap-2">
+              {[
+                { label: 'Baru', n: newOrders, cls: newOrders ? 'bg-secondary-container/70 text-on-secondary-container' : 'bg-surface-container-low text-primary' },
+                { label: 'Aktif', n: activeOrders.length, cls: 'bg-surface-container-low text-primary' },
+                { label: 'Belum Bayar', n: unpaidOrders, cls: unpaidOrders ? 'bg-red-50 text-red-800' : 'bg-surface-container-low text-primary' },
+              ].map((s) => (
+                <div key={s.label} className={`rounded-lg p-2.5 ${s.cls}`}>
+                  <p className="text-label-md">{s.label}</p>
+                  <p className="text-headline-sm">{s.n}</p>
+                </div>
+              ))}
+            </div>
+            <span className="flex w-full items-center justify-between rounded-lg bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
+              Kelola Pesanan per Meja <Icon name="chevron_right" size={18} />
+            </span>
+          </button>
 
           {/* Kartu ringkas */}
           <div className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2">

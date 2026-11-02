@@ -3,19 +3,22 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import { AppProvider, useApp } from './state/AppState';
 import { GuestTabs, StaffTabs } from './tabs/Tabs';
-import { PinModal } from './components/PinModal';
 import { NewMenuModal } from './components/NewMenuModal';
+import Login from './pages/Login';
 
 setupIonicReact({ mode: 'ios' });
 
 function Routes() {
-  const { isStaff } = useApp();
+  const { session, isStaff } = useApp();
+  // Admin mendarat di panel staf, pelanggan di beranda; belum masuk selalu ke /masuk
+  const home = !session ? '/masuk' : isStaff ? '/staf/ringkasan' : '/tamu/beranda';
   return (
     <IonRouterOutlet>
-      <Route path="/tamu" render={() => <GuestTabs />} />
-      <Route path="/staf" render={() => (isStaff ? <StaffTabs /> : <Redirect to="/tamu/beranda" />)} />
+      <Route exact path="/masuk" render={() => (session ? <Redirect to={home} /> : <Login />)} />
+      <Route path="/tamu" render={() => (session ? <GuestTabs /> : <Redirect to="/masuk" />)} />
+      <Route path="/staf" render={() => (isStaff ? <StaffTabs /> : <Redirect to={home} />)} />
       <Route exact path="/">
-        <Redirect to="/tamu/beranda" />
+        <Redirect to={home} />
       </Route>
     </IonRouterOutlet>
   );
@@ -27,7 +30,6 @@ export default function App() {
       <AppProvider>
         <IonReactRouter>
           <Routes />
-          <PinModal />
           <NewMenuModal />
         </IonReactRouter>
       </AppProvider>

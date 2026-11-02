@@ -7,7 +7,7 @@ import { GuestHeader } from '../../components/Headers';
 import { Badge, Icon, useToast } from '../../components/ui';
 
 const LiveMusic: React.FC = () => {
-  const { data, now, refresh, toggleReminder, requestStaff } = useApp();
+  const { data, now, isStaff, refresh, toggleReminder } = useApp();
   const history = useHistory();
   const toast = useToast();
 
@@ -170,19 +170,21 @@ const LiveMusic: React.FC = () => {
             })}
           </div>
 
-          <section className="flex flex-col gap-3 rounded-xl bg-surface-container p-4">
-            <h3 className="flex items-center gap-2 text-headline-sm text-primary">
-              <Icon name="admin_panel_settings" size={22} className="text-secondary" />
-              Kelola Jadwal Pertunjukan
-            </h3>
-            <p className="text-body-sm text-on-surface-variant">
-              Khusus pengelola outlet &amp; supervisor cafe untuk konfirmasi artis tamu, durasi panggung, dan perubahan jadwal mendadak.
-            </p>
-            <button type="button" onClick={() => requestStaff(() => history.push('/staf/live-music'))} className="btn-primary w-full">
-              <Icon name="add_circle" size={20} />
-              Mode Staf: Kelola &amp; Tambah Jadwal Musik
-            </button>
-          </section>
+          {isStaff && (
+            <section className="flex flex-col gap-3 rounded-xl bg-surface-container p-4">
+              <h3 className="flex items-center gap-2 text-headline-sm text-primary">
+                <Icon name="admin_panel_settings" size={22} className="text-secondary" />
+                Kelola Jadwal Pertunjukan
+              </h3>
+              <p className="text-body-sm text-on-surface-variant">
+                Khusus pengelola outlet &amp; supervisor cafe untuk konfirmasi artis tamu, durasi panggung, dan perubahan jadwal mendadak.
+              </p>
+              <button type="button" onClick={() => history.push('/staf/live-music')} className="btn-primary w-full">
+                <Icon name="add_circle" size={20} />
+                Admin: Kelola &amp; Tambah Jadwal Musik
+              </button>
+            </section>
+          )}
         </div>
       </IonContent>
     </IonPage>

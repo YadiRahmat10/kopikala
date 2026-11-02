@@ -82,6 +82,41 @@ export interface CartLine {
   note?: string;
 }
 
+export type PaymentMethod = 'qris' | 'kasir';
+export type OrderStatus = 'baru' | 'diproses' | 'diantar' | 'selesai' | 'batal';
+
+export interface OrderItem {
+  menuId: string;
+  name: string;
+  price: number;
+  qty: number;
+  note?: string;
+}
+
+export interface Order {
+  id: string;
+  /** kode pendek untuk dipanggil barista, mis. "A012" */
+  code: string;
+  customer: string;
+  /** null = takeaway */
+  tableId: number | null;
+  items: OrderItem[];
+  total: number;
+  payment: PaymentMethod;
+  paid: boolean;
+  status: OrderStatus;
+  createdAt: number;
+  /** sudah dilihat admin di notifikasi */
+  seen: boolean;
+}
+
+export type Role = 'admin' | 'pelanggan';
+
+export interface Session {
+  role: Role;
+  name: string;
+}
+
 export interface AppData {
   tables: CafeTable[];
   menu: MenuItem[];
@@ -93,5 +128,6 @@ export interface AppData {
   /** id menu baru yang perlu diumumkan ke pelanggan */
   announcements: string[];
   cart: CartLine[];
+  orders: Order[];
   lastSync: number;
 }

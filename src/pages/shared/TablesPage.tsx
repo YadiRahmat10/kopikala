@@ -33,7 +33,7 @@ function footnote(t: CafeTable, now: number, staffView: boolean) {
 }
 
 export default function TablesPage({ staff = false }: { staff?: boolean }) {
-  const { data, now, isStaff, refresh, requestStaff, setTableStatus, toggleSaveTable } = useApp();
+  const { data, now, isStaff, refresh, setTableStatus, toggleSaveTable } = useApp();
   const toast = useToast();
   const [presentAlert] = useIonAlert();
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -71,11 +71,6 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
     setSpinning(true);
     refresh();
     window.setTimeout(() => setSpinning(false), 600);
-  };
-
-  const toggleEdit = (on: boolean) => {
-    if (!on) return setEditMode(false);
-    requestStaff(() => setEditMode(true));
   };
 
   const setStatus = (status: TableStatus) => {
@@ -143,8 +138,8 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
             </div>
           </section>
 
-          {/* Toggle mode staf (khusus tampilan pelanggan) */}
-          {!staff && (
+          {/* Toggle mode staf: hanya admin yang sedang melihat tampilan pelanggan */}
+          {!staff && isStaff && (
             <div className="flex items-center justify-between gap-3 rounded-xl bg-surface-container-low p-4">
               <div className="flex items-center gap-3">
                 <Icon name="admin_panel_settings" size={22} className="text-secondary" />
@@ -153,7 +148,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
                   <p className="text-label-md font-medium text-on-surface-variant">Ubah status meja langsung</p>
                 </div>
               </div>
-              <Switch label="Mode Staf Cafe" checked={editMode && isStaff} onChange={toggleEdit} />
+              <Switch label="Mode Staf Cafe" checked={editMode} onChange={setEditMode} />
             </div>
           )}
 

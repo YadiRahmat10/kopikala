@@ -1,11 +1,9 @@
 import type { AppData, CafeTable, MenuItem, Show } from './types';
 
-const G = 'https://lh3.googleusercontent.com/aida-public/';
 /** Foto menu & live music lokal (public/assets/img) */
 const A = '/assets/img/';
 
 export const IMG = {
-  avatar: G + 'AB6AXuA1R-APmB7A23BeC0KhRYV5ikRYwlcS9SyWGqWFpaDgPCsVyMqVM3T86QVw5YcL_z6S8de7N3acyyhHVy12mR8Brj8M1UvGSNWV1owQlsEDOu93tI5nFAVdaKQY2s0UeHlvmJiE9sp1tFk_Aw9kNvtIQ5h-8DR6Iq7pATWSPfXpWdCqNtvC_p58D813_j6wFPjT6R_XSeVMu8WEaBCGRsX5DdKhRAif8xmMQ4E0fwA',
   bandSmall: A + 'Senja-Akustik-Trio.jpg',
   bandHero: A + 'Senja-Akustik-Trio.jpg',
   bandStage: A + 'Senja-Akustik-Trio.jpg',
@@ -30,7 +28,8 @@ export const CAFE = {
   staffName: 'Barista Dimas',
   shift: 'Shift Sore',
   shiftHours: '15.00 - 23.00 WIB',
-  demoPin: '1234',
+  /** akun demo admin (kasir & barista) */
+  demoAdmin: { username: 'admin', password: 'kopikala' },
 };
 
 const min = 60_000;
@@ -100,6 +99,22 @@ export function createSeed(now = Date.now()): AppData {
     savedTable: null,
     announcements: [],
     cart: [],
+    orders: [
+      {
+        id: 'o-seed1', code: 'A001', customer: 'Dewi', tableId: 2, payment: 'qris', paid: true, status: 'diantar', createdAt: now - 70 * min, seen: true, total: 82000,
+        items: [
+          { menuId: 'm-aren', name: 'Kopi Susu Kala Aren', price: 25000, qty: 2, note: 'Gula sedikit' },
+          { menuId: 'm-croissant', name: 'Croissant Butter Almond', price: 32000, qty: 1, note: 'Dipanaskan' },
+        ],
+      },
+      {
+        id: 'o-seed2', code: 'A002', customer: 'Bima', tableId: 7, payment: 'kasir', paid: false, status: 'diproses', createdAt: now - 12 * min, seen: true, total: 69000,
+        items: [
+          { menuId: 'm-v60', name: 'Manual Brew V60', price: 35000, qty: 1 },
+          { menuId: 'm-matcha', name: 'Matcha Oat Latte', price: 34000, qty: 1, note: 'Es sedikit' },
+        ],
+      },
+    ],
     lastSync: now - 2 * min,
   };
 }

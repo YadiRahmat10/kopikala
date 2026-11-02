@@ -1,9 +1,10 @@
 import { IonHeader, useIonActionSheet } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useApp } from "../state/AppState";
-import { CAFE, IMG } from "../data/seed";
+import { CAFE } from "../data/seed";
 import { isOpen, pad2 } from "../lib/format";
 import { Icon } from "./ui";
+import { NotificationBell } from "./OrderNotifications";
 
 function Logo() {
   return (
@@ -14,9 +15,27 @@ function Logo() {
 }
 
 export function GuestHeader() {
-  const { now, isStaff, requestStaff } = useApp();
+  const { now, session, isStaff, logout } = useApp();
   const history = useHistory();
+  const [presentSheet] = useIonActionSheet();
   const open = isOpen(now);
+  const name = session?.name ?? "Tamu";
+
+  const openAccount = () =>
+    presentSheet({
+      header: `Halo, ${name}`,
+      buttons: [
+        {
+          text: "Keluar",
+          role: "destructive",
+          handler: () => {
+            logout();
+            history.replace("/masuk");
+          },
+        },
+        { text: "Batal", role: "cancel" },
+      ],
+    });
 
   return (
     <IonHeader className="kk-header ion-no-border">
@@ -38,21 +57,25 @@ export function GuestHeader() {
           </div>
           <button
             type="button"
-            onClick={() => requestStaff(() => history.push("/staf/ringkasan"))}
-            className="flex min-h-[44px] shrink-0 items-center gap-1 rounded-full bg-surface-container-low py-1.5 pl-2 pr-2.5 transition-all hover:bg-surface-container active:scale-[0.98]"
+            onClick={() =>
+              isStaff ? history.push("/staf/ringkasan") : openAccount()
+            }
+            className="flex min-h-[44px] max-w-[45%] shrink-0 items-center gap-1.5 rounded-full bg-surface-container-low py-1.5 pl-1.5 pr-3 transition-all hover:bg-surface-container active:scale-[0.98]"
           >
-            <img
-              alt=""
-              src={IMG.avatar}
-              className="h-8 w-8 rounded-full object-cover"
-            />
-            <span className="flex flex-col items-start">
-              <span className="text-label-sm leading-none text-primary">
-                Mode Staf
+            <span className="icon-btn h-8 w-8 bg-primary-container text-label-lg text-on-primary">
+              {isStaff ? (
+                <Icon name="admin_panel_settings" size={18} />
+              ) : (
+                name.charAt(0).toUpperCase()
+              )}
+            </span>
+            <span className="flex min-w-0 flex-col items-start">
+              <span className="max-w-full truncate text-label-sm leading-none text-primary">
+                {isStaff ? "Panel Admin" : name}
               </span>
               <span className="flex items-center gap-0.5 text-[10px] text-on-surface-variant">
-                <Icon name={isStaff ? "lock_open" : "lock"} size={12} />
-                {isStaff ? "Masuk" : "PIN"}
+                <Icon name={isStaff ? "dashboard" : "person"} size={12} />
+                {isStaff ? "Kembali" : "Pelanggan"}
               </span>
             </span>
           </button>
@@ -76,11 +99,11 @@ export function StaffHeader({ title }: { title: string }) {
           handler: () => history.push("/tamu/beranda"),
         },
         {
-          text: "Keluar Mode Staf",
+          text: "Keluar dari Admin",
           role: "destructive",
           handler: () => {
             logout();
-            history.replace("/tamu/beranda");
+            history.replace('/masuk');
           },
         },
         { text: "Batal", role: "cancel" },
@@ -104,7 +127,8 @@ export function StaffHeader({ title }: { title: string }) {
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
+            <NotificationBell />
             <button
               type="button"
               aria-label="Mode Tamu"

@@ -211,6 +211,26 @@ ion-toast.kk-toast {
   font-weight: 600;
 }
 
+ion-toast.kk-toast-order {
+  --background: rgba(75, 46, 42, 0.94);
+  --button-color: #fdbdab;
+}
+
+ion-toast.kk-toast-order::part(header) {
+  font-weight: 800;
+}
+
+ion-tab-button ion-badge.kk-tab-badge {
+  --background: #ba1a1a;
+  --color: #ffffff;
+  --padding-start: 5px;
+  --padding-end: 5px;
+  min-width: 18px;
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 9999px;
+}
+
 ion-toast.kk-toast-info {
   --background: rgba(49, 48, 45, 0.9);
 }

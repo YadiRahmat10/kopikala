@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useIonToast } from '@ionic/react';
-import type { MenuStatus, TableStatus } from '../data/types';
+import type { MenuStatus, OrderStatus, TableStatus } from '../data/types';
 
 export function Icon({ name, size = 20, fill = false, className = '' }: { name: string; size?: number; fill?: boolean; className?: string }) {
   return (
@@ -43,6 +43,14 @@ export const TABLE_BADGE: Record<TableStatus, { tone: Tone; label: string; long:
 };
 
 export const MENU_BADGE: Record<MenuStatus, Tone> = { tersedia: 'green', menipis: 'orange', habis: 'red' };
+
+export const ORDER_BADGE: Record<OrderStatus, { tone: Tone; label: string }> = {
+  baru: { tone: 'rose', label: 'BARU' },
+  diproses: { tone: 'amber', label: 'DIPROSES' },
+  diantar: { tone: 'orange', label: 'DIANTAR' },
+  selesai: { tone: 'green', label: 'SELESAI' },
+  batal: { tone: 'muted', label: 'DIBATALKAN' },
+};
 
 export function Switch({ checked, onChange, label, disabled }: { checked: boolean; onChange: (v: boolean) => void; label: string; disabled?: boolean }) {
   return (
