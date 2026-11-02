@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
         </IonRefresher>
         <div className="flex flex-col gap-4 px-4 pb-8 pt-4">
           {/* Sapaan shift */}
-          <section className="relative overflow-hidden rounded-xl bg-surface-container-low p-4">
+          <section className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4">
             <Icon name="local_cafe" size={110} className="pointer-events-none absolute -bottom-6 -right-4 text-surface-container-highest" />
             <div className="relative flex items-start justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
                 </div>
               ))}
             </div>
-            <span className="flex w-full items-center justify-between rounded-lg bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
+            <span className="flex w-full items-center justify-between rounded-2xl bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
               Kelola Pesanan per Meja <Icon name="chevron_right" size={18} />
             </span>
           </button>
@@ -142,7 +142,7 @@ const Dashboard: React.FC = () => {
                   <p className="text-label-md text-on-surface-variant">Meja Terisi</p>
                 </div>
               </div>
-              <button type="button" onClick={() => history.push('/staf/meja')} className="flex items-center justify-between rounded-lg bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
+              <button type="button" onClick={() => history.push('/staf/meja')} className="flex items-center justify-between rounded-2xl bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
                 Buka Denah Meja <Icon name="chevron_right" size={18} />
               </button>
             </section>
@@ -162,7 +162,7 @@ const Dashboard: React.FC = () => {
                   <p className="text-headline-sm text-red-800">{out.length} Menu</p>
                 </div>
               </div>
-              <button type="button" onClick={() => history.push('/staf/stok')} className="flex items-center justify-between rounded-lg bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
+              <button type="button" onClick={() => history.push('/staf/stok')} className="flex items-center justify-between rounded-2xl bg-surface-container-low px-3 py-2 text-label-md font-bold text-primary">
                 Atur Stok Habis <Icon name="chevron_right" size={18} />
               </button>
             </section>
@@ -223,10 +223,10 @@ const Dashboard: React.FC = () => {
             {attention.map((t) => {
               const a = action(t);
               return (
-                <div key={t.id} className="flex flex-col gap-2 rounded-xl bg-surface-container-low p-3">
+                <div key={t.id} className="flex flex-col gap-2 rounded-2xl bg-surface-container-low p-3">
                   <div className="flex items-start gap-3">
                     <div className="flex w-10 shrink-0 flex-col items-center">
-                      <span className="text-[9px] font-bold uppercase text-on-surface-variant">Meja</span>
+                      <span className="text-[9px] font-bold text-on-surface-variant">Meja</span>
                       <span className="text-counter text-primary">{pad2(t.id)}</span>
                     </div>
                     <div className="min-w-0 flex-1">
@@ -248,7 +248,7 @@ const Dashboard: React.FC = () => {
                 </div>
               );
             })}
-            <button type="button" onClick={() => history.push('/staf/meja')} className="flex items-center justify-center gap-1 rounded-lg bg-surface-container py-3 text-label-md font-bold text-secondary">
+            <button type="button" onClick={() => history.push('/staf/meja')} className="flex items-center justify-center gap-1 rounded-2xl bg-surface-container py-3 text-label-md font-bold text-secondary">
               Lihat Semua {stats.total} Meja di Denah Lengkap <Icon name="arrow_forward" size={16} />
             </button>
           </section>
@@ -266,7 +266,7 @@ const Dashboard: React.FC = () => {
             {[...low, ...out].map((m) => {
               const habis = menuStatus(m) === 'habis';
               return (
-                <div key={m.id} className="flex flex-col gap-2 rounded-xl bg-surface-container-low p-3">
+                <div key={m.id} className="flex flex-col gap-2 rounded-2xl bg-surface-container-low p-3">
                   <div className="flex items-center gap-3">
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
                       <img src={m.image} alt="" className={`h-full w-full object-cover ${habis ? 'grayscale' : ''}`} />
@@ -319,7 +319,7 @@ const Dashboard: React.FC = () => {
                   <Icon name="edit" size={18} />
                 </button>
               </div>
-              <div className="flex gap-3 rounded-xl bg-surface-container-low p-3">
+              <div className="flex gap-3 rounded-2xl bg-surface-container-low p-3">
                 <img src={tonight.image ?? IMG.bandStage} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-1.5">
@@ -336,7 +336,7 @@ const Dashboard: React.FC = () => {
                 ['soundcheck', 'graphic_eq', 'Soundcheck Selesai'],
                 ['micReady', 'lightbulb', 'Panggung & Mic Siap'],
               ] as const).map(([key, icon, label]) => (
-                <label key={key} className="flex min-h-[48px] cursor-pointer items-center justify-between rounded-lg bg-surface-container-low px-3">
+                <label key={key} className="flex min-h-[48px] cursor-pointer items-center justify-between rounded-2xl bg-surface-container-low px-3">
                   <span className="flex items-center gap-2 text-label-lg text-primary">
                     <Icon name={icon} size={18} className="text-secondary" />
                     {label}
@@ -350,7 +350,7 @@ const Dashboard: React.FC = () => {
                 </label>
               ))}
               <div className="grid grid-cols-2 gap-2">
-                <button type="button" onClick={() => history.push('/staf/live-music')} className="flex min-h-[48px] items-center justify-center gap-1.5 rounded-lg bg-surface-container px-2 text-label-md font-bold text-primary">
+                <button type="button" onClick={() => history.push('/staf/live-music')} className="flex min-h-[48px] items-center justify-center gap-1.5 rounded-2xl bg-surface-container px-2 text-label-md font-bold text-primary">
                   <Icon name="queue_music" size={18} />
                   Song Request ({stage.songRequests})
                 </button>

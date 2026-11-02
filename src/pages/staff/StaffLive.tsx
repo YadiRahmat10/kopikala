@@ -76,7 +76,7 @@ const StaffLive: React.FC = () => {
               </div>
               <div className="flex flex-col gap-2">
                 {checks.map((c) => (
-                  <div key={c.key} className="flex min-h-[52px] items-center justify-between rounded-xl bg-surface-container-low px-3">
+                  <div key={c.key} className="flex min-h-[52px] items-center justify-between rounded-2xl bg-surface-container-low px-3">
                     <span className="flex items-center gap-2 text-label-lg text-primary">
                       <Icon name={c.icon} size={20} className={stage[c.key] ? 'text-emerald-700' : 'text-on-surface-variant'} />
                       {c.label}
@@ -86,7 +86,7 @@ const StaffLive: React.FC = () => {
                 ))}
               </div>
 
-              <div className="rounded-xl bg-surface-container-low p-3">
+              <div className="rounded-2xl bg-surface-container-low p-3">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-label-lg text-primary">
                     <Icon name="volume_up" size={20} className="text-secondary" /> Master Level
@@ -105,7 +105,7 @@ const StaffLive: React.FC = () => {
                 {stage.masterLevel > 85 && <p className="text-label-md text-orange-700">⚠️ Volume tinggi — area indoor mungkin terganggu</p>}
               </div>
 
-              <div className="flex items-center justify-between rounded-xl bg-surface-container-low p-3">
+              <div className="flex items-center justify-between rounded-2xl bg-surface-container-low p-3">
                 <span className="flex items-center gap-2 text-label-lg text-primary">
                   <Icon name="queue_music" size={20} className="text-secondary" />
                   Song Request Tamu
@@ -147,7 +147,7 @@ const StaffLive: React.FC = () => {
           <div className="flex flex-col gap-2">
             {data.shows.map((s) => (
               <div key={s.id} className={`flex items-center gap-3 rounded-xl p-3 ${s.hasLive ? 'bg-surface-container-lowest shadow-sm' : 'bg-surface-container-low'}`}>
-                <div className="icon-btn h-11 w-11 rounded-lg bg-surface-container text-primary">
+                <div className="icon-btn h-11 w-11 rounded-2xl bg-surface-container text-primary">
                   <Icon name={s.icon} size={22} />
                 </div>
                 <button type="button" onClick={() => openForm(s.dayOffset)} className="min-w-0 flex-1 text-left">

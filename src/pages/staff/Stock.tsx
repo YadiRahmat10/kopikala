@@ -95,11 +95,11 @@ const Stock: React.FC = () => {
 
           <button type="button" onClick={() => setAddOpen(true)} className="btn-primary min-h-[56px] w-full bg-primary text-body-lg font-bold">
             <Icon name="add_circle" size={22} />
-            + Tambah Menu Baru
+            Tambah Menu Baru
           </button>
 
           {lastAdded && (
-            <div className="flex items-center gap-3 rounded-xl bg-surface-container p-3 ring-1 ring-emerald-200">
+            <div className="flex items-center gap-3 rounded-2xl bg-surface-container p-3 ring-1 ring-emerald-200">
               <div className="icon-btn h-10 w-10 bg-emerald-100 text-emerald-700">
                 <Icon name="check_circle" size={22} />
               </div>
@@ -111,7 +111,7 @@ const Stock: React.FC = () => {
             </div>
           )}
 
-          <label className="flex items-center gap-2 rounded-xl bg-surface-container px-4">
+          <label className="flex items-center gap-2 rounded-2xl bg-surface-container px-4">
             <Icon name="search" size={22} className="text-on-surface-variant" />
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Cari nama menu, SKU, atau kategori..." className="h-12 w-full bg-transparent text-body-md outline-none placeholder:text-on-surface-variant/70" />
             {query && (
@@ -147,7 +147,7 @@ const Stock: React.FC = () => {
             return (
               <article key={m.id} className={`flex flex-col gap-3 rounded-2xl bg-surface-container-lowest p-3 shadow-sm ${isNew ? 'ring-2 ring-emerald-200' : ''} ${!m.active ? 'opacity-70' : ''}`}>
                 <div className="flex gap-3">
-                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-surface-container">
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-surface-container">
                     <img src={m.image} alt="" className={`h-full w-full object-cover ${habis ? 'grayscale' : ''}`} />
                     {habis ? (
                       <span className="absolute inset-0 flex items-center justify-center bg-black/40 text-label-sm text-white">HABIS</span>
@@ -173,7 +173,7 @@ const Stock: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 rounded-xl bg-surface-container-low p-2 pl-3">
+                <div className="flex items-center justify-between gap-2 rounded-2xl bg-surface-container-low p-2 pl-3">
                   {habis ? (
                     <>
                       <button type="button" onClick={() => { restock(m.id); toast('Stok berhasil diperbarui'); }} className="flex h-10 items-center gap-1.5 rounded-full bg-primary px-3.5 text-label-md font-bold text-on-primary active:scale-95">
@@ -198,7 +198,7 @@ const Stock: React.FC = () => {
                         </span>
                       )}
                       <div className="flex items-center gap-2">
-                        <button type="button" onClick={() => { soldOut(m.id); toast(`${m.name} ditandai habis`, 'info'); }} className="flex h-9 items-center gap-1 rounded-lg bg-surface-container px-2.5 text-label-md text-primary">
+                        <button type="button" onClick={() => { soldOut(m.id); toast(`${m.name} ditandai habis`, 'info'); }} className="flex h-9 items-center gap-1 rounded-2xl bg-surface-container px-2.5 text-label-md text-primary">
                           <Icon name="block" size={16} /> Habiskan
                         </button>
                         <Switch label="Tampilkan di QR menu" checked={m.active} onChange={() => toggleMenuActive(m.id)} />

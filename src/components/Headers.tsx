@@ -115,7 +115,7 @@ export function StaffHeader({ title }: { title: string }) {
       <div className="pt-safe glass-bar">
         <div className="flex h-16 items-center justify-between gap-2 px-4">
           <div className="flex min-w-0 flex-col">
-            <span className="flex items-center gap-1 text-label-sm uppercase tracking-wider text-secondary">
+            <span className="flex items-center gap-1 text-label-sm text-secondary">
               <Icon name="local_cafe" size={14} /> KopiKala Staf Hub
             </span>
             <div className="flex items-center gap-2">

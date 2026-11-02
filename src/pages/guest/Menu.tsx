@@ -126,7 +126,7 @@ const Menu: React.FC = () => {
                   className="text-on-secondary-container"
                 />
                 <div className="min-w-0">
-                  <p className="text-label-sm uppercase tracking-wider text-on-secondary-container">
+                  <p className="text-label-sm text-on-secondary-container">
                     Akses Barista
                   </p>
                   <p className="truncate text-body-sm text-primary">
@@ -147,7 +147,7 @@ const Menu: React.FC = () => {
 
           {/* Pencarian */}
           <div className="flex gap-2">
-            <label className="flex flex-1 items-center gap-2 rounded-xl bg-surface-container px-4">
+            <label className="flex flex-1 items-center gap-2 rounded-2xl border border-[rgba(42,26,20,0.08)] bg-white/80 px-4 transition-shadow focus-within:ring-4 focus-within:ring-primary/10">
               <Icon
                 name="search"
                 size={22}
@@ -210,7 +210,7 @@ const Menu: React.FC = () => {
           </ChipRow>
 
           {showFilters && (
-            <div className="flex flex-wrap items-center gap-3 rounded-xl bg-surface-container-low p-3">
+            <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-surface-container-low p-3">
               <label className="flex items-center gap-2 text-label-md font-semibold text-primary">
                 <Switch
                   label="Sembunyikan menu habis"
@@ -254,7 +254,7 @@ const Menu: React.FC = () => {
               return (
                 <article
                   key={m.id}
-                  className={`overflow-hidden rounded-2xl bg-surface-container-lowest shadow-sm ${habis ? "opacity-70" : ""}`}
+                  className={`glass overflow-hidden rounded-3xl ${habis ? "opacity-70" : ""}`}
                 >
                   <div className="relative aspect-[16/9] w-full bg-surface-container">
                     <img
@@ -278,7 +278,7 @@ const Menu: React.FC = () => {
                         {m.name}
                       </h3>
                       {m.tag && (
-                        <span className="rounded-full bg-secondary-container/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-on-secondary-container">
+                        <span className="rounded-full bg-secondary-container/60 px-2 py-0.5 text-[10px] font-bold text-on-secondary-container">
                           {m.tag}
                         </span>
                       )}
@@ -334,7 +334,7 @@ const Menu: React.FC = () => {
             <button
               type="button"
               onClick={() => setCartOpen(true)}
-              className="flex min-h-[56px] w-full items-center justify-between rounded-full bg-primary-container px-5 text-on-primary shadow-lg active:scale-[0.99]"
+              className="flex min-h-[56px] w-full items-center justify-between rounded-full bg-primary-container px-5 text-on-primary shadow-[0_16px_32px_-14px_rgba(42,26,20,0.8)] active:scale-[0.99]"
             >
               <span className="flex items-center gap-2 text-label-lg">
                 <span className="icon-btn h-8 w-8 bg-white/15">

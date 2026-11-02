@@ -35,7 +35,7 @@ const LiveMusic: React.FC = () => {
         <div className="flex flex-col gap-5 px-4 pb-8 pt-4">
           <div className="flex items-end justify-between gap-3">
             <div>
-              <span className="flex items-center gap-1 text-label-sm uppercase tracking-wider text-secondary">
+              <span className="flex items-center gap-1 text-label-sm text-secondary">
                 <Icon name="calendar_today" size={14} />
                 {fmtLongDate(today)}
               </span>
@@ -54,7 +54,7 @@ const LiveMusic: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-primary/70 to-primary" />
               <div className="relative flex flex-col gap-3 p-4 pt-4">
                 <span className="chip w-fit bg-white/90 text-primary">
-                  {tonight ? 'ADA LIVE MUSIC MALAM INI' : 'MALAM INI LIBUR • JADWAL BERIKUTNYA'}
+                  {tonight ? 'Live music malam ini' : 'Malam ini libur, lihat jadwal berikutnya'}
                 </span>
                 <div className="mt-20">
                   <span className="rounded-full bg-secondary-container px-2.5 py-1 text-label-sm text-on-secondary-container">
@@ -105,7 +105,7 @@ const LiveMusic: React.FC = () => {
             </section>
           )}
 
-          <div className="flex items-start gap-3 rounded-xl bg-surface-container-low p-4">
+          <div className="flex items-start gap-3 rounded-2xl bg-surface-container-low p-4">
             <div className="icon-btn h-9 w-9 bg-secondary-container text-on-secondary-container">
               <Icon name="local_activity" size={18} />
             </div>
@@ -132,7 +132,7 @@ const LiveMusic: React.FC = () => {
                 <article key={s.id} className={`flex flex-col gap-3 rounded-xl p-4 ${s.hasLive ? 'bg-surface-container-lowest shadow-sm' : 'bg-surface-container-low'}`}>
                   <div className="flex items-center justify-between">
                     <span className={`text-label-md font-semibold ${s.hasLive ? 'text-secondary' : 'text-on-surface-variant'}`}>{fmtShortDate(dayDate(s.dayOffset, now))}</span>
-                    {s.hasLive ? <Badge tone="green">ADA</Badge> : <Badge tone="muted">TIDAK ADA</Badge>}
+                    {s.hasLive ? <Badge tone="green">Ada</Badge> : <Badge tone="muted">Libur</Badge>}
                   </div>
                   <div className="flex items-start gap-3">
                     <div className={`icon-btn h-11 w-11 rounded-lg ${s.hasLive ? 'bg-surface-container text-primary' : 'bg-surface-container text-on-surface-variant'}`}>
@@ -171,7 +171,7 @@ const LiveMusic: React.FC = () => {
           </div>
 
           {isStaff && (
-            <section className="flex flex-col gap-3 rounded-xl bg-surface-container p-4">
+            <section className="flex flex-col gap-3 rounded-2xl bg-surface-container p-4">
               <h3 className="flex items-center gap-2 text-headline-sm text-primary">
                 <Icon name="admin_panel_settings" size={22} className="text-secondary" />
                 Kelola Jadwal Pertunjukan

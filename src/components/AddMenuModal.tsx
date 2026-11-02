@@ -244,7 +244,7 @@ export function AddMenuModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             </div>
             {err('price')}
             {err('hpp')}
-            <div className="mt-3 flex items-center justify-between rounded-lg bg-surface-container px-3 py-2 text-label-md">
+            <div className="mt-3 flex items-center justify-between rounded-2xl bg-surface-container px-3 py-2 text-label-md">
               <span className="flex items-center gap-1 font-semibold text-on-surface-variant">
                 <Icon name="trending_up" size={16} /> Estimasi Margin Keuntungan:
               </span>

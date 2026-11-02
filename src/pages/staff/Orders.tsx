@@ -57,7 +57,7 @@ function OrderCard({ o, now }: { o: Order; now: number }) {
         <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl bg-primary-container text-on-primary">
           {o.tableId ? (
             <>
-              <span className="text-[10px] font-bold uppercase tracking-wider opacity-80">Meja</span>
+              <span className="text-[10px] font-bold opacity-80">Meja</span>
               <span className="text-headline-md leading-none">{pad2(o.tableId)}</span>
             </>
           ) : (
@@ -76,7 +76,7 @@ function OrderCard({ o, now }: { o: Order; now: number }) {
         </div>
       </div>
 
-      <ul className="flex flex-col gap-2 rounded-xl bg-surface-container-low p-3">
+      <ul className="flex flex-col gap-2 rounded-2xl bg-surface-container-low p-3">
         {o.items.map((it, i) => (
           <li key={i} className="flex flex-col gap-1">
             <div className="flex items-start justify-between gap-2 text-body-sm">
@@ -101,22 +101,25 @@ function OrderCard({ o, now }: { o: Order; now: number }) {
       </div>
 
       {!done && (
-        <div className="flex gap-2">
-          <button type="button" aria-label="Batalkan pesanan" onClick={cancel} className="icon-btn h-12 w-12 bg-red-50 text-red-700">
-            <Icon name="close" size={22} />
-          </button>
-          {!o.paid && (
-            <button type="button" onClick={() => { markOrderPaid(o.id); toast(`#${o.code} lunas di kasir`); }} className="btn-soft flex-1 px-3">
-              <Icon name="payments" size={18} />
-              Tandai Lunas
-            </button>
-          )}
+        <div className="flex flex-col gap-2">
           {next && (
-            <button type="button" onClick={() => setOrderStatus(o.id, next.to)} className="btn-primary flex-1 px-3">
-              <Icon name={next.icon} size={18} />
+            <button type="button" onClick={() => setOrderStatus(o.id, next.to)} className="btn-primary w-full">
+              <Icon name={next.icon} size={20} />
               {next.label(o)}
             </button>
           )}
+          <div className="flex gap-2">
+            {!o.paid && (
+              <button type="button" onClick={() => { markOrderPaid(o.id); toast(`#${o.code} lunas di kasir`); }} className="btn-soft min-h-[44px] flex-1 py-2">
+                <Icon name="payments" size={18} />
+                Tandai Lunas
+              </button>
+            )}
+            <button type="button" onClick={cancel} className="btn min-h-[44px] flex-1 py-2 text-red-700 hover:bg-red-500/10">
+              <Icon name="close" size={18} />
+              Batalkan
+            </button>
+          </div>
         </div>
       )}
       {o.status === 'selesai' && !o.paid && (

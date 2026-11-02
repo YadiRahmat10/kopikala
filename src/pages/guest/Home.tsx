@@ -8,6 +8,14 @@ import { GuestHeader } from '../../components/Headers';
 import { Badge, Icon, MENU_BADGE, useToast } from '../../components/ui';
 import type { MenuItem } from '../../data/types';
 
+function greeting(now: number) {
+  const h = new Date(now).getHours();
+  if (h < 11) return 'Selamat pagi';
+  if (h < 15) return 'Selamat siang';
+  if (h < 18) return 'Selamat sore';
+  return 'Selamat malam';
+}
+
 function menuBadgeLabel(m: MenuItem) {
   const s = menuStatus(m);
   if (s === 'habis') return 'Habis Hari Ini';
@@ -16,7 +24,7 @@ function menuBadgeLabel(m: MenuItem) {
 }
 
 const Home: React.FC = () => {
-  const { data, now, refresh, toggleReminder } = useApp();
+  const { data, now, session, refresh, toggleReminder } = useApp();
   const history = useHistory();
   const toast = useToast();
   const [spinning, setSpinning] = useState(false);
@@ -48,26 +56,25 @@ const Home: React.FC = () => {
           <IonRefresherContent />
         </IonRefresher>
 
-        <div className="flex flex-col gap-4 px-4 pb-8 pt-4">
-          {/* Status & Quick Sync Bar */}
-          <div className="flex items-center justify-between rounded-full bg-surface-container-low px-4 py-2.5 shadow-sm">
-            <div className="flex min-w-0 items-center gap-2">
-              <span className="truncate text-label-sm text-on-surface-variant">
-                Diperbarui <span className="text-on-surface">{syncLabel(data.lastSync, now)}</span> • Live Data
-              </span>
+        <div className="flex flex-col gap-4 px-4 pb-8 pt-2">
+          {/* Sapaan */}
+          <div className="flex items-end justify-between gap-3 px-1 pb-1">
+            <div className="min-w-0">
+              <p className="text-body-md text-on-surface-variant">
+                {greeting(now)}, {session?.name ?? 'Tamu'}
+              </p>
+              <h1 className="mt-0.5 text-headline-lg text-primary [text-wrap:balance]">Mau ngopi di mana hari ini?</h1>
+              <p className="mt-1 text-label-md font-medium text-on-surface-variant">Status cafe diperbarui {syncLabel(data.lastSync, now).toLowerCase()}</p>
             </div>
-            <button type="button" aria-label="Segarkan status cafe" onClick={doRefresh} className="icon-btn h-8 w-8 bg-surface-container text-primary">
-              <Icon name="sync" size={18} className={spinning ? 'kk-spin' : ''} />
+            <button type="button" aria-label="Segarkan status cafe" onClick={doRefresh} className="icon-btn h-10 w-10 border border-[rgba(42,26,20,0.08)] bg-white/80 text-primary">
+              <Icon name="sync" size={20} className={spinning ? 'kk-spin' : ''} />
             </button>
           </div>
 
           {/* 1. Ketersediaan Meja */}
           <section className="card">
             <div className="flex items-start justify-between gap-2">
-              <div>
-                <span className="eyebrow">Kondisi Tempat</span>
-                <h2 className="mt-0.5 text-headline-sm text-primary">Ketersediaan Meja</h2>
-              </div>
+              <h2 className="text-headline-sm text-primary">Ketersediaan meja</h2>
               <Badge tone={stats.free ? 'green' : 'red'}>{pct}% Tersedia</Badge>
             </div>
             <div className="flex flex-col gap-2">
@@ -75,9 +82,8 @@ const Home: React.FC = () => {
                 <span className="text-counter text-primary">{stats.free}</span>
                 <span className="text-body-md font-medium text-on-surface-variant">dari {stats.total} Meja Kosong</span>
               </div>
-              <div className="flex h-3 w-full gap-1 overflow-hidden rounded-full bg-surface-container p-0.5">
-                <div className="h-full rounded-full bg-emerald-600 transition-all duration-500" style={{ width: `${pct}%` }} />
-                <div className="h-full flex-1 rounded-full bg-surface-container-highest" />
+              <div className="h-2 w-full overflow-hidden rounded-full bg-surface-container-high">
+                <div className="h-full rounded-full bg-emerald-600 transition-all duration-500 motion-reduce:transition-none" style={{ width: `${pct}%` }} />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -85,7 +91,7 @@ const Home: React.FC = () => {
                 { icon: 'chair', label: 'Area Indoor', n: stats.freeIndoor },
                 { icon: 'deck', label: 'Area Outdoor', n: stats.freeOutdoor },
               ].map((a) => (
-                <div key={a.label} className="flex items-center gap-2 rounded-lg bg-surface-container-low p-2.5">
+                <div key={a.label} className="flex items-center gap-2 rounded-2xl bg-surface-container-low p-2.5">
                   <div className="icon-btn h-7 w-7 bg-emerald-100 text-emerald-800">
                     <Icon name={a.icon} size={16} />
                   </div>
@@ -112,13 +118,13 @@ const Home: React.FC = () => {
                 <div className="icon-btn h-8 w-8 bg-secondary-container text-on-secondary-container">
                   <Icon name="music_note" size={18} />
                 </div>
-                <h2 className="text-headline-sm text-primary">Live Music Malam Ini</h2>
+                <h2 className="text-headline-sm text-primary">Live music malam ini</h2>
               </div>
               {tonight ? <Badge tone="green">Ada Jadwal</Badge> : <Badge tone="muted">Libur</Badge>}
             </div>
             {tonight ? (
               <>
-                <div className="flex items-center gap-4 rounded-lg bg-surface-container-low p-2">
+                <div className="flex items-center gap-4 rounded-2xl bg-surface-container-low p-2">
                   <img src={tonight.image ?? IMG.bandSmall} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate text-headline-sm text-primary">{tonight.title}</span>
@@ -156,17 +162,14 @@ const Home: React.FC = () => {
           {/* 3. Status Menu */}
           <section className="card">
             <div className="flex items-center justify-between gap-2">
-              <div>
-                <span className="eyebrow">Update Dapur &amp; Bar</span>
-                <h2 className="mt-0.5 text-headline-sm text-primary">Status Menu Hari Ini</h2>
-              </div>
+              <h2 className="text-headline-sm text-primary">Menu hari ini</h2>
               {soldOut.length > 0 && <Badge tone="amber" icon="warning">{soldOut.length} Habis</Badge>}
             </div>
             <div className="flex flex-col gap-2">
               {highlights.map((m) => {
                 const s = menuStatus(m);
                 return (
-                  <div key={m.id} className={`flex items-center justify-between rounded-lg bg-surface-container-low p-2 ${s === 'habis' ? 'opacity-75' : ''}`}>
+                  <div key={m.id} className={`flex items-center justify-between rounded-2xl bg-surface-container-low p-2 ${s === 'habis' ? 'opacity-75' : ''}`}>
                     <div className="flex min-w-0 items-center gap-2">
                       <img src={m.image} alt="" className={`h-9 w-9 shrink-0 rounded-lg object-cover ${s === 'habis' ? 'grayscale' : ''}`} />
                       <div className="flex min-w-0 flex-col">
@@ -186,7 +189,7 @@ const Home: React.FC = () => {
           </section>
 
           {/* 4. Info Cafe */}
-          <footer className="flex flex-col gap-3 rounded-xl bg-surface-container-low p-4">
+          <footer className="flex flex-col gap-3 px-1 pt-2">
             <a href={CAFE.mapsUrl} target="_blank" rel="noreferrer" className="flex items-start gap-2.5">
               <div className="icon-btn mt-0.5 h-6 w-6 bg-surface-container text-secondary">
                 <Icon name="location_on" size={16} />
@@ -201,7 +204,7 @@ const Home: React.FC = () => {
                 { icon: 'wifi', cls: 'text-emerald-700', k: 'Wi-Fi Cepat', v: '100 Mbps (WFC)' },
                 { icon: 'power', cls: 'text-secondary', k: 'Stopkontak', v: 'Tiap Meja Indoor' },
               ].map((f) => (
-                <div key={f.k} className="flex items-center gap-2 rounded-lg bg-surface-container-lowest p-2 shadow-sm">
+                <div key={f.k} className="flex items-center gap-2 rounded-2xl bg-surface-container-lowest p-2 shadow-sm">
                   <Icon name={f.icon} size={18} className={f.cls} />
                   <div className="flex min-w-0 flex-col">
                     <span className="text-label-sm font-semibold text-on-surface-variant">{f.k}</span>

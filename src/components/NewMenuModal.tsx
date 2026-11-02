@@ -45,7 +45,7 @@ export function NewMenuModal() {
               <h2 className="text-headline-md text-primary">{item.name}</h2>
               <p className="mt-1 text-body-md text-on-surface-variant">{item.description}</p>
             </div>
-            <div className="flex items-start gap-3 rounded-xl bg-surface-container-low p-3">
+            <div className="flex items-start gap-3 rounded-2xl bg-surface-container-low p-3">
               <Icon name="notifications_active" size={20} className="text-emerald-700" />
               <span className="text-label-md text-on-surface-variant">Barista baru saja menambahkan menu ini ke sistem live kasir &amp; meja.</span>
             </div>

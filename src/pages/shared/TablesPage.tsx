@@ -113,10 +113,10 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
         </IonRefresher>
         <div className="flex flex-col gap-4 px-4 pb-6 pt-4">
           {/* Ringkasan live */}
-          <section className="flex flex-col gap-3 rounded-xl bg-surface-container-low p-4">
+          <section className="flex flex-col gap-3 rounded-2xl bg-surface-container-low p-4">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <span className="flex items-center gap-1.5 text-label-sm uppercase tracking-wider text-secondary">
+                <span className="flex items-center gap-1.5 text-label-sm text-secondary">
                   Ketersediaan Meja Live
                 </span>
                 <h2 className="mt-1 text-headline-md text-primary">{stats.free} Meja Kosong</h2>
@@ -140,7 +140,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
 
           {/* Toggle mode staf: hanya admin yang sedang melihat tampilan pelanggan */}
           {!staff && isStaff && (
-            <div className="flex items-center justify-between gap-3 rounded-xl bg-surface-container-low p-4">
+            <div className="flex items-center justify-between gap-3 rounded-2xl bg-surface-container-low p-4">
               <div className="flex items-center gap-3">
                 <Icon name="admin_panel_settings" size={22} className="text-secondary" />
                 <div>
@@ -206,7 +206,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
                     key={t.id}
                     type="button"
                     onClick={() => pick(t.id)}
-                    className={`flex flex-col rounded-xl bg-surface-container-lowest p-3 text-left shadow-sm transition-all active:scale-[0.98] ${active ? 'ring-2 ring-primary-container' : 'ring-1 ring-transparent'}`}
+                    className={`flex flex-col rounded-2xl bg-surface-container-lowest p-3 text-left shadow-sm transition-all active:scale-[0.98] ${active ? 'ring-2 ring-primary-container' : 'ring-1 ring-transparent'}`}
                   >
                     <div className="flex items-start justify-between gap-1">
                       <div>
@@ -236,10 +236,10 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
                     key={t.id}
                     type="button"
                     onClick={() => pick(t.id)}
-                    className={`flex items-center gap-3 rounded-xl bg-surface-container-lowest p-3 text-left shadow-sm ${t.id === selected.id ? 'ring-2 ring-primary-container' : ''}`}
+                    className={`flex items-center gap-3 rounded-2xl bg-surface-container-lowest p-3 text-left shadow-sm ${t.id === selected.id ? 'ring-2 ring-primary-container' : ''}`}
                   >
-                    <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg bg-surface-container-low">
-                      <span className="text-[9px] font-bold uppercase text-on-surface-variant">Meja</span>
+                    <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl bg-surface-container-low">
+                      <span className="text-[9px] font-bold text-on-surface-variant">Meja</span>
                       <span className="text-headline-sm leading-none text-primary">{pad2(t.id)}</span>
                     </div>
                     <div className="min-w-0 flex-1">
@@ -255,7 +255,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
           )}
 
           {!staff && (
-            <section className="flex flex-col gap-3 rounded-xl bg-surface-container-low p-4">
+            <section className="flex flex-col gap-3 rounded-2xl bg-surface-container-low p-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-headline-sm font-semibold text-primary">Suasana &amp; Tips Datang</h3>
                 <span className="chip bg-surface-container-lowest text-secondary">Suhu 24°C</span>
@@ -296,7 +296,7 @@ export default function TablesPage({ staff = false }: { staff?: boolean }) {
           </div>
           {sheetOpen && (
           <>
-          <div className="mt-2 flex items-center gap-2 rounded-lg bg-surface-container-low px-3 py-2 text-label-md font-semibold text-on-surface-variant">
+          <div className="mt-2 flex items-center gap-2 rounded-2xl bg-surface-container-low px-3 py-2 text-label-md font-semibold text-on-surface-variant">
             <Icon name="check_circle" size={18} className="text-secondary" />
             {staff && selected.order ? `Order: ${selected.order}` : selected.feature}
           </div>

@@ -4,10 +4,10 @@
 
 :root {
   --ion-font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --ion-background-color: #fdf9f4;
+  --ion-background-color: #ece9e5;
   --ion-text-color: #1c1c19;
-  --ion-color-primary: #4b2e2a;
-  --ion-color-primary-rgb: 75, 46, 42;
+  --ion-color-primary: #2a1a14;
+  --ion-color-primary-rgb: 42, 26, 20;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #331916;
@@ -15,20 +15,21 @@
   --ion-safe-area-top: env(safe-area-inset-top);
   --ion-safe-area-bottom: env(safe-area-inset-bottom);
 
-  /* Latar glassy: gradien latte + bercak warna hangat. Geometri dipatok ke viewport
+  /* Latar glassy "keramik": abu hangat netral + bercak karamel tipis. Geometri dipatok ke viewport
      (vw/vh dari pojok kiri atas) agar tampil identik di ion-app, ion-tabs & tiap halaman. */
-  --kk-base: #efe2d4;
+  --kk-base: #ece9e5;
   --kk-backdrop:
-    radial-gradient(75vw 42vh at 0vw 0vh, rgba(226, 160, 116, 0.55), transparent 70%),
-    radial-gradient(70vw 40vh at 100vw 18vh, rgba(244, 184, 168, 0.6), transparent 70%),
-    radial-gradient(80vw 38vh at 5vw 62vh, rgba(196, 146, 112, 0.35), transparent 70%),
-    radial-gradient(75vw 40vh at 100vw 92vh, rgba(255, 210, 160, 0.6), transparent 70%),
+    radial-gradient(70vw 38vh at 0vw 0vh, rgba(214, 170, 128, 0.32), transparent 70%),
+    radial-gradient(60vw 34vh at 100vw 8vh, rgba(255, 255, 255, 0.7), transparent 70%),
+    radial-gradient(80vw 40vh at 100vw 60vh, rgba(190, 158, 136, 0.2), transparent 70%),
+    radial-gradient(70vw 36vh at 0vw 100vh, rgba(222, 190, 150, 0.28), transparent 70%),
     var(--kk-base);
-  --kk-glass: rgba(255, 255, 255, 0.55);
-  --kk-glass-strong: rgba(255, 251, 247, 0.74);
-  --kk-glass-border: rgba(255, 255, 255, 0.65);
-  --kk-glass-blur: blur(22px) saturate(160%);
-  --kk-glass-shadow: 0 8px 28px -10px rgba(75, 46, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --kk-ink: #2a1a14;
+  --kk-glass: rgba(255, 255, 255, 0.7);
+  --kk-glass-strong: rgba(250, 249, 247, 0.88);
+  --kk-glass-border: rgba(255, 255, 255, 0.85);
+  --kk-glass-blur: blur(24px) saturate(150%);
+  --kk-glass-shadow: 0 1px 2px rgba(42, 26, 20, 0.04), 0 14px 32px -18px rgba(42, 26, 20, 0.22);
 }
 
 @layer base {
@@ -56,41 +57,41 @@
     -webkit-backdrop-filter: var(--kk-glass-blur);
     backdrop-filter: var(--kk-glass-blur);
   }
+  /* Header menyatu dengan latar: tanpa garis & bayangan, cukup sedikit kabut */
   .glass-bar {
-    background: rgba(255, 250, 245, 0.45);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    background: linear-gradient(to bottom, rgba(236, 233, 229, 0.85), rgba(236, 233, 229, 0.55));
     -webkit-backdrop-filter: var(--kk-glass-blur);
     backdrop-filter: var(--kk-glass-blur);
   }
   .card {
-    @apply glass flex flex-col gap-4 rounded-2xl p-4;
+    @apply glass flex flex-col gap-4 rounded-3xl p-5;
   }
   .eyebrow {
-    @apply text-label-sm uppercase tracking-wider text-secondary;
+    @apply text-label-md font-semibold text-on-surface-variant;
   }
   .chip {
-    @apply inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-label-sm font-bold;
+    @apply inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-label-md font-semibold;
   }
   .btn {
-    @apply flex min-h-[48px] items-center justify-center gap-2 rounded-full px-4 py-3 text-label-lg transition-all active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
+    @apply flex min-h-[50px] items-center justify-center gap-2 rounded-full px-5 py-3 text-label-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
   }
   .btn-primary {
-    @apply btn bg-gradient-to-b from-[#6a4842] to-primary-container text-on-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_8px_18px_-8px_rgba(51,25,22,0.6)] hover:to-primary;
+    @apply btn bg-primary-container text-on-primary shadow-[0_10px_24px_-12px_rgba(42,26,20,0.7)] hover:bg-primary;
   }
   .btn-soft {
-    @apply btn border border-white/60 bg-white/45 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md hover:bg-white/60;
+    @apply btn border border-[rgba(42,26,20,0.08)] bg-white/80 text-primary hover:bg-white;
   }
   .icon-btn {
-    @apply flex shrink-0 items-center justify-center rounded-full transition-all active:scale-95;
+    @apply flex shrink-0 items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-95;
   }
   .filter-chip {
-    @apply inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/70 bg-white/50 px-4 text-label-lg font-semibold text-primary-container transition-colors;
+    @apply inline-flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[rgba(42,26,20,0.08)] bg-white/70 px-3.5 text-label-lg font-semibold text-on-surface-variant transition-colors;
   }
   .filter-chip-active {
-    @apply border-primary-container bg-primary-container font-bold text-on-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.2)];
+    @apply border-primary-container bg-primary-container text-on-primary;
   }
   .input {
-    @apply w-full rounded-xl border border-white/60 bg-white/50 px-4 py-3.5 text-body-lg text-on-surface outline-none ring-primary-container/40 placeholder:text-on-surface-variant/60 focus:ring-2;
+    @apply w-full rounded-2xl border border-[rgba(42,26,20,0.08)] bg-white/80 px-4 py-3.5 text-body-lg text-on-surface outline-none transition-shadow placeholder:text-on-surface-variant/50 focus:border-primary/30 focus:ring-4 focus:ring-primary/10;
   }
   .scroll-x {
     @apply -mx-4 flex gap-2 overflow-x-auto px-4;
@@ -113,45 +114,65 @@ ion-content {
   --background: transparent;
 }
 
+/* Tab bar sebagai dock kaca melayang dengan indikator pill espresso */
 ion-tab-bar {
-  --background: rgba(255, 250, 245, 0.5);
+  --background: rgba(255, 255, 255, 0.72);
   --border: 0;
-  --color: #504442;
-  --color-selected: #4b2e2a;
-  height: calc(72px + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 -8px 24px -12px rgba(75, 46, 42, 0.18);
+  --color: #6f625d;
+  --color-selected: #2a1a14;
+  height: 68px !important;
+  margin: 0 12px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+  padding: 0 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  box-shadow: 0 18px 40px -16px rgba(42, 26, 20, 0.35), 0 2px 6px rgba(42, 26, 20, 0.05);
   -webkit-backdrop-filter: var(--kk-glass-blur);
   backdrop-filter: var(--kk-glass-blur);
 }
 
 ion-tab-button {
   --ripple-color: transparent;
+  --padding-top: 0;
+  --padding-bottom: 0;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 ion-tab-button ion-label {
-  margin-top: 2px;
-  font-size: 12px;
+  margin-top: 3px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 ion-tab-button.tab-selected ion-label {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 ion-tab-button .tab-icon {
-  font-size: 24px;
-  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 30px;
+  border-radius: 9999px;
+  font-size: 22px !important;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ion-tab-button.tab-selected .tab-icon {
+  background: #2a1a14;
+  color: #ffffff;
   font-variation-settings: 'FILL' 1;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  ion-tab-button .tab-icon {
+    transition: none;
+  }
+}
+
 ion-header.kk-header {
-  box-shadow: 0 8px 24px -16px rgba(75, 46, 42, 0.25);
+  box-shadow: none;
 }
 
 ion-footer.kk-footer {
@@ -160,9 +181,9 @@ ion-footer.kk-footer {
 
 /* Bottom sheet sesuai DESIGN.md: radius atas 24px & grab handle krem */
 ion-modal.kk-sheet {
-  --border-radius: 24px;
+  --border-radius: 28px;
   --background: var(--kk-glass-strong);
-  --backdrop-opacity: 0.4;
+  --backdrop-opacity: 0.32;
 }
 
 ion-modal.kk-sheet::part(content) {
@@ -178,7 +199,7 @@ ion-modal.kk-sheet .ion-page {
 ion-modal.kk-sheet::part(handle) {
   width: 36px;
   height: 4px;
-  background: #e8d8c4;
+  background: rgba(42, 26, 20, 0.18);
 }
 
 ion-modal.kk-sheet::part(backdrop) {
@@ -212,7 +233,7 @@ ion-toast.kk-toast {
 }
 
 ion-toast.kk-toast-order {
-  --background: rgba(75, 46, 42, 0.94);
+  --background: rgba(42, 26, 20, 0.94);
   --button-color: #fdbdab;
 }
 
@@ -229,6 +250,10 @@ ion-tab-button ion-badge.kk-tab-badge {
   font-size: 10px;
   font-weight: 800;
   border-radius: 9999px;
+  /* di pojok kanan atas pill ikon, tidak terpotong tepi dock */
+  top: 6px !important;
+  left: calc(50% + 14px) !important;
+  border: 2px solid #ffffff;
 }
 
 ion-toast.kk-toast-info {

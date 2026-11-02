@@ -161,7 +161,7 @@ export function CartModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-between rounded-xl bg-surface-container-low p-4">
+        <div className="mt-4 flex items-center justify-between rounded-2xl bg-surface-container-low p-4">
           <span className="text-label-lg text-on-surface-variant">Total Bayar</span>
           <span className="text-counter text-primary">{rupiah(total)}</span>
         </div>
